@@ -1,25 +1,187 @@
+buildscript {
+	ext {
+		queryDslVersion = "4.4.0"
+	}
+
+}
+
 plugins {
-	id 'org.springframework.boot' version '2.7.2'
-	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+	id 'org.springframework.boot' version '2.5.7'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'jacoco'
+}
+
+jar {
+	enabled = false
+	archiveClassifier.set("")
 }
 
 group = 'fivesenses.server'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
 repositories {
 	mavenCentral()
 }
 
 dependencies {
+	//firebase
+	implementation 'com.google.firebase:firebase-admin:8.1.0'
+
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'junit:junit:4.13.2'
+	implementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+
+
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0'
+
+	// QueryDSL
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	annotationProcessor(
+			"javax.persistence:javax.persistence-api",
+			"javax.annotation:javax.annotation-api",
+			"com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+
+	//jwt
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+
+	//aws
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.6.RELEASE'
+
 }
 
-tasks.named('test') {
+
+// QueryDSL
+sourceSets {
+	main {
+		java {
+			srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
+		}
+	}
+}
+
+test {
 	useJUnitPlatform()
+}
+
+//jacocoTestReport {
+//    dependsOn test // tests are required to run before generating the report
+//
+//    afterEvaluate {
+//        classDirectories.setFrom(files(classDirectories.files.collect {
+//            fileTree(dir: it, exclude: [
+//                    "mangpo/server/dto/*",
+//                    "**/Q*.class"
+//            ])
+//        }))
+//    }
+//}
+
+jacocoTestReport {
+	dependsOn test
+//    reports {
+//        html.enabled true
+//        xml.enabled true
+//        csv.enabled true
+//
+//        html.destination file("src/jacoco/jacoco.html")
+//        xml.destination file("src/jacoco/jacoco.xml")
+//    }
+
+	def Qdomains = []
+	for (qPattern in '**/QA'..'**/QZ') {
+		Qdomains.add(qPattern + '*')
+	}
+
+	afterEvaluate {
+		classDirectories.setFrom(
+				files(classDirectories.files.collect {
+					fileTree(dir: it, excludes: [
+//							"mangpo/server/config/*",
+//							"mangpo/server/dto/*",
+//							"mangpo/server/exeption/*",
+//							"mangpo/server/exhandler/*",
+//							"mangpo/server/interceptor/*",
+//							"mangpo/server/jwt/*",
+//							"mangpo/server/session/*",
+//							"mangpo/server/util/*",
+
+							"**/*Application*",
+							"**/*Config*",
+							"**/*Dto*",
+							"**/*Request*",
+							"**/*Response*",
+							"**/*Interceptor*",
+							"**/*Exception*"
+					] + Qdomains)
+				})
+		)
+	}
+	finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+	def Qdomains = []
+	for (qPattern in '*.QA'..'*.QZ') {
+		Qdomains.add(qPattern + '*')
+	}
+
+	violationRules {
+		rule {
+			element = 'CLASS'
+			enabled = true
+
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+//                minimum = 0.60
+			}
+
+			limit {
+				counter = 'METHOD'
+				value = 'COVEREDRATIO'
+//                minimum = 0.60
+			}
+
+			excludes = [
+//					"mangpo/server/config/*",
+//					"mangpo/server/dto/*",
+//					"mangpo/server/exeption/*",
+//					"mangpo/server/exhandler/*",
+//					"mangpo/server/interceptor/*",
+//					"mangpo/server/jwt/*",
+//					"mangpo/server/session/*",
+//					"mangpo/server/util/*",
+
+					"**/*Application*",
+					"**/*Config*",
+					"**/*Dto*",
+					"**/*Request*",
+					"**/*Response*",
+					"**/*Interceptor*",
+					"**/*Exception*"
+			] + Qdomains
+		}
+	}
 }
