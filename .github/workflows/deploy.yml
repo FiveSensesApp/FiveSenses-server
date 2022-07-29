@@ -24,9 +24,51 @@ jobs:
         run: chmod +x ./gradlew # (6)
         shell: bash
 
+#      - name: Set environment variables
+#        run: |
+#          set jwt.secret=${{secrets.JWT_KEY}}
+#          echo jwt.secret
+#
+#        shell: bash
+
+#      - name: Build with Gradle
+#        run: ./gradlew clean build # (7)
+#        shell: bash
+
+
+      - name: make application.yml(configuration files) - prod
+        if: contains(github.ref, 'main') # branch가 main 일 때, 나머지는 위와 동일 src/main/resources/application.yml
+        run: |
+          mkdir -p src/main/resources
+          cd ./src/main/resources
+          touch ./application.yml
+          echo "${{ secrets.PROPERTIES_PROD_MAIN }}" > ./application.yml
+        shell: bash
+
+
+      - name: make application.yml(configuration files) - test
+        if: contains(github.ref, 'main') # branch가 main 일 때, 나머지는 위와 동일 src/test/resources/application-test.yml
+        run: |
+          mkdir -p src/test/resources
+          cd ./src/test/resources
+          touch ./application.yml
+          echo "${{ secrets.PROPERTIES_PROD_TEST }}" > ./application.yml
+        shell: bash
+
+
+
       - name: Build with Gradle
         run: ./gradlew clean build # (7)
         shell: bash
+
+
+
+
+
+
+
+
+
 
       - name: Get current time
         uses: 1466587594/get-current-time@v2
@@ -51,10 +93,10 @@ jobs:
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v18
         with:
-          aws_access_key: ${{ secrets.AWS_ACCESS }}
-          aws_secret_key: ${{ secrets.AWS_SECRET }}
-          application_name: fivesenes-server
-          environment_name: Fivesenesserver-env
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: fivesenses-server
+          environment_name: Fivesensesserver-env
           version_label: github-action-${{steps.current-time.outputs.formattedTime}}
           region: ap-northeast-2
           deployment_package: deploy/deploy.zip
