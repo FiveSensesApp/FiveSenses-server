@@ -79,28 +79,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/users/validate-duplicate").permitAll()
-                .antMatchers("/users/lost-pw").permitAll()
+//                .antMatchers("/api/**").permitAll()
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/users/validate-duplicate").permitAll()
+                .antMatchers("/api/users/lost-pw").permitAll()
 
-                .antMatchers("/files/upload").permitAll()
+                .antMatchers("/api/files/upload").permitAll()
 
-                .antMatchers("/health").permitAll()
-                .antMatchers("/test").permitAll()
-
-
-//                .antMatchers("/auth").permitAll()
-//                .antMatchers("/users").permitAll()
-//                .antMatchers("/clubs").permitAll()
-//                .antMatchers("/todos").permitAll()
-//                .antMatchers("/comments").permitAll()
-//
-//                .antMatchers("/associations").permitAll()
-//                .antMatchers("/health").permitAll()
-
-
-//                .antMatchers("/api/authenticate").permitAll()
-//                .antMatchers("/api/signup").permitAll()
+                .antMatchers("/api/health").permitAll()
+                .antMatchers("/api/test").permitAll()
 
                 .anyRequest().authenticated()
 

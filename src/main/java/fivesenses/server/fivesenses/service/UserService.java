@@ -62,11 +62,6 @@ public class UserService {
 
         if(userRepository.existsByEmail(email))
             throw new IllegalStateException("이미 사용중인 이메일입니다.");
-
-//        Optional<User> findUser = userRepository.findByEmail(email);
-//        if (findUser.isPresent()){
-//            throw new IllegalStateException("이미 사용중인 이메일입니다.");
-//        }
     }
 
     public List<User> findUsers(){ return userRepository.findAll();}

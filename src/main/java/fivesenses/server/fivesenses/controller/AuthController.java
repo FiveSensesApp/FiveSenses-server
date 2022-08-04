@@ -7,7 +7,6 @@ import fivesenses.server.fivesenses.jwt.JwtFilter;
 import fivesenses.server.fivesenses.jwt.TokenProvider;
 import fivesenses.server.fivesenses.service.UserService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private final TokenProvider tokenProvider;
@@ -49,8 +48,28 @@ public class AuthController {
         return new ResponseEntity<>(result, httpHeaders, HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Result<TokenDto>> authorize(@Valid @RequestBody LoginDto loginDto) {
+//    @PostMapping("/login")
+//    public ResponseEntity<Result<TokenDto>> authorize(@Valid @RequestBody LoginDto loginDto) {
+//        UsernamePasswordAuthenticationToken authenticationToken =
+//                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
+//
+//        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        String jwt = tokenProvider.createToken(authentication);
+//
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+//
+//        Result<TokenDto> result = new Result<>(new Meta(HttpStatus.OK.value()), new TokenDto(jwt));
+//        return new ResponseEntity<>(result, httpHeaders, HttpStatus.CREATED);
+//    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginDto loginDto) {
+//        System.out.println(loginDto.getEmail());
+//        System.out.println(loginDto.getPassword());
+
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
 
@@ -62,7 +81,6 @@ public class AuthController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
-        Result<TokenDto> result = new Result<>(new Meta(HttpStatus.OK.value()), new TokenDto(jwt));
-        return new ResponseEntity<>(result, httpHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
     }
 }
