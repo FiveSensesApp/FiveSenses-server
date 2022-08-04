@@ -5,6 +5,8 @@ import fivesenses.server.fivesenses.entity.Post;
 import fivesenses.server.fivesenses.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +38,8 @@ public class PostController {
         return new ResponseEntity<>(result, httpHeaders, HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<Result<PostResponseDto>> getPost(@RequestParam Long postId) {
+    @GetMapping("/{postId}")
+    public ResponseEntity<Result<PostResponseDto>> getPost(@PathVariable Long postId) {
         Post post = postService.findPostById(postId);
 
         Result<PostResponseDto> result = new Result<>(new Meta(HttpStatus.OK.value()), new PostResponseDto(post));
@@ -52,12 +54,21 @@ public class PostController {
         return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/{postId}")
+    @PatchMapping("/{postId}")
     public ResponseEntity<Result<PostResponseDto>> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto) {
         postService.updatePost(postId, requestDto);
 
         Post post = postService.findPostById(postId);
         Result<PostResponseDto> result = new Result<>(new Meta(HttpStatus.OK.value()), new PostResponseDto(post));
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<Result<Slice<PostResponseDto>>> getPosts(@RequestParam Long userId, Pageable pageable) {
+        Slice<PostResponseDto> postDtos = postService.findSliceByUser(userId, pageable)
+                .map(PostResponseDto::new);
+
+        Result<Slice<PostResponseDto>> result = new Result<>(new Meta(HttpStatus.OK.value()), postDtos);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

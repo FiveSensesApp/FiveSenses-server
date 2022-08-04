@@ -5,6 +5,8 @@ import fivesenses.server.fivesenses.entity.Post;
 import fivesenses.server.fivesenses.entity.User;
 import fivesenses.server.fivesenses.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,5 +45,10 @@ public class PostService {
     public void updatePost(Long postId, PostRequestDto postRequestDto) {
         Post post = findPostById(postId);
         post.update(postRequestDto);
+    }
+
+    public Slice<Post> findSliceByUser(Long userId, Pageable pageable) {
+        User user = userService.findById(userId);
+        return postRepository.findSliceByUser(user, pageable);
     }
 }
