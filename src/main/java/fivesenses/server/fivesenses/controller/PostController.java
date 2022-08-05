@@ -62,11 +62,10 @@ public class PostController {
     }
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity<Result<Object>> deletePost(@PathVariable Long postId) {
+    public ResponseEntity<?> deletePost(@PathVariable Long postId) {
         postService.deletePost(postId);
 
-        Result<Object> result = new Result<>(new Meta(HttpStatus.NO_CONTENT.value()));
-        return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{postId}")

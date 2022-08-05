@@ -11,8 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateUserDto {
-    private String email;
+    private Long userId;
     private String nickname;
-
-
+    private Boolean isAlarmOn;
+    private LocalDateTime alarmDate;
 }

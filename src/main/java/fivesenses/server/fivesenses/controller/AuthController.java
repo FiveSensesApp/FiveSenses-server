@@ -33,10 +33,9 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Result<UserResponseDto>> createUser(@RequestBody UserRequestDto userRequestDto,
+    public ResponseEntity<Result<UserResponseDto>> createUser(@RequestBody CreateUserDto createUserDto,
                                                               UriComponentsBuilder b) {
-        User user = userRequestDto.toEntityExceptId();
-        Long userId = userService.createUser(user);
+        Long userId = userService.createUser(createUserDto);
 
         UriComponents uriComponents =
                 b.path("/users/{userId}").buildAndExpand(userId);
@@ -44,6 +43,7 @@ public class AuthController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(uriComponents.toUri());
 
+        User user = userService.findById(userId);
         Result<UserResponseDto> result = new Result<>(new Meta(HttpStatus.CREATED.value()), new UserResponseDto(user));
         return new ResponseEntity<>(result, httpHeaders, HttpStatus.CREATED);
     }

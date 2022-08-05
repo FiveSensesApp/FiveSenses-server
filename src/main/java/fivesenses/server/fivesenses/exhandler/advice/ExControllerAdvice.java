@@ -2,7 +2,6 @@ package fivesenses.server.fivesenses.exhandler.advice;
 
 import fivesenses.server.fivesenses.dto.Meta;
 import fivesenses.server.fivesenses.dto.Result;
-import fivesenses.server.fivesenses.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;

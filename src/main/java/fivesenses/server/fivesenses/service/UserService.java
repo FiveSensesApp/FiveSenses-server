@@ -2,6 +2,7 @@ package fivesenses.server.fivesenses.service;
 
 import fivesenses.server.fivesenses.dto.ChangePwDto;
 import fivesenses.server.fivesenses.dto.UpdateUserDto;
+import fivesenses.server.fivesenses.dto.CreateUserDto;
 import fivesenses.server.fivesenses.entity.Authority;
 import fivesenses.server.fivesenses.entity.User;
 import fivesenses.server.fivesenses.entity.UserAuthority;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -39,7 +39,8 @@ public class UserService {
     }
 
     @Transactional
-    public Long createUser(User user){
+    public Long createUser(CreateUserDto createUserDto){
+        User user = createUserDto.toEntityExceptId();
         user.changePw(passwordEncoder.encode(user.getPassword()));
 
         validateDuplicateUser(user.getEmail());
@@ -74,22 +75,19 @@ public class UserService {
         return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
     }
 
-//    @Transactional
-//    public void updateUser(Long id, UpdateUserDto updateUserDto){
-//        User user = this.findById(id);
-//        if (!updateUserDto.getEmail().equals(user.getEmail()))
-//            validateDuplicateUser(updateUserDto.getEmail());
-//
-//        user.update(updateUserDto);
-//    }
-//
-//    @Transactional
-//    public void changePassword(ChangePwDto changePwDto){
-//        User user = this.findUserFromToken();
-//
-//        if(changePwDto.getPassword() != null)
-//            user.changePw(passwordEncoder.encode(changePwDto.getPassword()));
-//    }
+    @Transactional
+    public void updateUser(UpdateUserDto updateUserDto){
+        User user = findById(updateUserDto.getUserId());
+        user.update(updateUserDto);
+    }
+
+    @Transactional
+    public void changePassword(ChangePwDto changePwDto){
+        User user = this.findUserFromToken();
+
+        if(changePwDto.getPassword() != null)
+            user.changePw(passwordEncoder.encode(changePwDto.getPassword()));
+    }
 
     @Transactional
     public void lostPassword(String userEmail){

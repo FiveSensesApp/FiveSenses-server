@@ -1,5 +1,6 @@
 package fivesenses.server.fivesenses.entity;
 
+import fivesenses.server.fivesenses.dto.UpdateUserDto;
 import fivesenses.server.fivesenses.entity.common.BaseTimeEntity;
 import lombok.*;
 
@@ -55,5 +56,15 @@ public class User extends BaseTimeEntity {
                 ", emailValidCode='" + emailValidCode + '\'' +
                 ", userAuthorityList=" + userAuthorityList +
                 '}';
+    }
+
+    public void update(UpdateUserDto dto) {
+        if(dto.getNickname() != null)
+            nickname = dto.getNickname();
+        if(dto.getIsAlarmOn() != null)
+            isAlarmOn = dto.getIsAlarmOn();
+        if(dto.getAlarmDate() != null)
+            alarmDate = dto.getAlarmDate();
+
     }
 }
