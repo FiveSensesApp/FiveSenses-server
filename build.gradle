@@ -32,6 +32,14 @@ repositories {
 }
 
 dependencies {
+	//swagger
+	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+
+//	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.1.26'
+//	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+//	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
 	//firebase
 	implementation 'com.google.firebase:firebase-admin:8.1.0'
 

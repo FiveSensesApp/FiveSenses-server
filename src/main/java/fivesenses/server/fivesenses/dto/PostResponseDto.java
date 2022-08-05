@@ -28,7 +28,7 @@ public class PostResponseDto {
         this.category = p.getCategory();
         this.keyword = p.getKeyword();
         this.star = p.getStar();
-        this.category = p.getCategory();
+        this.content = p.getContent();
         this.createdDate = p.getCreatedDate();
         this.modifiedDate = p.getModifiedDate();
     }

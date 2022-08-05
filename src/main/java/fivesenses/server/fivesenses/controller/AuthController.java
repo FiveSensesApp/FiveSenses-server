@@ -48,28 +48,8 @@ public class AuthController {
         return new ResponseEntity<>(result, httpHeaders, HttpStatus.CREATED);
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<Result<TokenDto>> authorize(@Valid @RequestBody LoginDto loginDto) {
-//        UsernamePasswordAuthenticationToken authenticationToken =
-//                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
-//
-//        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//        String jwt = tokenProvider.createToken(authentication);
-//
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-//
-//        Result<TokenDto> result = new Result<>(new Meta(HttpStatus.OK.value()), new TokenDto(jwt));
-//        return new ResponseEntity<>(result, httpHeaders, HttpStatus.CREATED);
-//    }
-
     @PostMapping("/signin")
-    public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginDto loginDto) {
-//        System.out.println(loginDto.getEmail());
-//        System.out.println(loginDto.getPassword());
-
+    public ResponseEntity<Result<TokenDto>> authorize(@Valid @RequestBody LoginDto loginDto) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
 
@@ -81,6 +61,7 @@ public class AuthController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
-        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
+        Result<TokenDto> result = new Result<>(new Meta(HttpStatus.OK.value()), new TokenDto(jwt));
+        return new ResponseEntity<>(result, httpHeaders, HttpStatus.OK);
     }
 }

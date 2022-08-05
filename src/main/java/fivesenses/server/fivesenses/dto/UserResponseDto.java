@@ -21,15 +21,15 @@ public class UserResponseDto {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
-    public UserResponseDto(User user){
-        id = user.getId();
-        nickname = user.getNickname();
-        isAlarmOn = user.getIsAlarmOn();
-        alarmDate = user.getAlarmDate();
-        email = user.getEmail();
-        emailValidCode = user.getEmailValidCode();
-        createdDate = user.getCreatedDate();
-        modifiedDate = user.getModifiedDate();
+    public UserResponseDto(User u){
+        id = u.getId();
+        nickname = u.getNickname();
+        isAlarmOn = u.getIsAlarmOn();
+        alarmDate = u.getAlarmDate();
+        email = u.getEmail();
+        emailValidCode = u.getEmailValidCode();
+        createdDate = u.getCreatedDate();
+        modifiedDate = u.getModifiedDate();
     }
 
 }

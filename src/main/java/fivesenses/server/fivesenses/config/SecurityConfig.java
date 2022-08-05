@@ -7,6 +7,7 @@ import fivesenses.server.fivesenses.jwt.JwtAuthenticationEntryPoint;
 import fivesenses.server.fivesenses.jwt.JwtSecurityConfig;
 import fivesenses.server.fivesenses.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -52,6 +53,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         ,"/error"
 
                 );
+
+        web.ignoring().antMatchers(
+                "/v3/api-docs"
+                , "/v2/api-docs",  "/configuration/ui",
+                "/swagger-resources", "/configuration/security",
+                "/swagger-ui.html", "/webjars/**","/swagger/**"
+        );
     }
 
     @Override
@@ -87,11 +95,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/files/upload").permitAll()
 
                 .antMatchers("/api/health").permitAll()
-                .antMatchers("/api/test").permitAll()
+                .antMatchers("/api/admin").permitAll()
+
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
 
                 .anyRequest().authenticated()
 
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
     }
+
 }
