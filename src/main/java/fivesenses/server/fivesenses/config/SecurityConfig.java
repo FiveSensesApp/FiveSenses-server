@@ -94,7 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/api/files/upload").permitAll()
 
-                .antMatchers("/api/health").permitAll()
+                .antMatchers("/health").permitAll()
                 .antMatchers("/api/admin").permitAll()
 
                 .antMatchers("/swagger-ui/**").permitAll()

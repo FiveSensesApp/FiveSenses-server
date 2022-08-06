@@ -10,7 +10,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @ApiIgnore
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/health")
+@RequestMapping("/health")
 public class HealthController {
 
     @GetMapping
