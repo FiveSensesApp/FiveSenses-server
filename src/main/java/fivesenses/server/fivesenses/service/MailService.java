@@ -1,15 +1,20 @@
 package fivesenses.server.fivesenses.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,14 +51,26 @@ public class MailService {
 
             helper.setText(htmlTemplate, true);
 
-            FileSystemResource mail_1_pw = new FileSystemResource(new File("src/main/resources/static/images/mail_1_pw.png"));
+
+
+
+            FileSystemResource mail_1_pw = new FileSystemResource(ResourceUtils.getFile("classpath:static/images/mail_1_pw.png"));
             helper.addInline("mail_1_pw", mail_1_pw);
 
-            FileSystemResource mail_3 = new FileSystemResource(new File("src/main/resources/static/images/mail_3.png"));
+            FileSystemResource mail_3 = new FileSystemResource(ResourceUtils.getFile("classpath:static/images/mail_3.png"));
             helper.addInline("mail_3", mail_3);
+
+
+//            FileSystemResource mail_1_pw = new FileSystemResource(new File("src/main/resources/static/images/mail_1_pw.png"));
+//            helper.addInline("mail_1_pw", mail_1_pw);
+//
+//            FileSystemResource mail_3 = new FileSystemResource(new File("src/main/resources/static/images/mail_3.png"));
+//            helper.addInline("mail_3", mail_3);
 
         } catch (MessagingException e) {
             throw new IllegalStateException("메세지 전송중 예외 발생 : lostpw");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         mailSender.send(mimeMessage);
