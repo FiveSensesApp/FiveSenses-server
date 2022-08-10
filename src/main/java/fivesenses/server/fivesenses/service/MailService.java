@@ -1,6 +1,7 @@
 package fivesenses.server.fivesenses.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -12,9 +13,9 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,10 +55,18 @@ public class MailService {
 
 
 
-            FileSystemResource mail_1_pw = new FileSystemResource(ResourceUtils.getFile("classpath:static/images/mail_1_pw.png"));
+
+            Resource resource = new ClassPathResource("static/images/mail_1_pw.png");
+            InputStream inputStream1 = resource.getInputStream();
+
+            FileSystemResource mail_1_pw = new FileSystemResource(convertInputStreamToFile(inputStream1));
             helper.addInline("mail_1_pw", mail_1_pw);
 
-            FileSystemResource mail_3 = new FileSystemResource(ResourceUtils.getFile("classpath:static/images/mail_3.png"));
+
+            Resource resource2 = new ClassPathResource("static/images/mail_1_pw.png");
+            InputStream inputStream2 = resource2.getInputStream();
+
+            FileSystemResource mail_3 = new FileSystemResource(convertInputStreamToFile(inputStream2));
             helper.addInline("mail_3", mail_3);
 
 
@@ -111,5 +120,30 @@ public class MailService {
         }
 
         mailSender.send(mimeMessage);
+    }
+
+    public static File convertInputStreamToFile(InputStream inputStream) throws IOException {
+
+        File tempFile = File.createTempFile(String.valueOf(inputStream.hashCode()), ".tmp");
+        tempFile.deleteOnExit();
+
+        copyInputStreamToFile(inputStream, tempFile);
+
+        return tempFile;
+    }
+
+    private static void copyInputStreamToFile(InputStream inputStream, File file) {
+
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+            int read;
+            byte[] bytes = new byte[1024];
+
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
