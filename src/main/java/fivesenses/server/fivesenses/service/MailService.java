@@ -1,23 +1,22 @@
 package fivesenses.server.fivesenses.service;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
+
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import static fivesenses.server.fivesenses.common.FileConvertUtils.convertInputStreamToFile;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +40,6 @@ public class MailService {
             helper.setTo(userEmail);
             helper.setSubject("[오감] 임시 비밀번호를 발급합니다!");
 
-
             Map<String, Object> variables = new HashMap<>();
             variables.put("pw", randomPw);
 
@@ -52,34 +50,14 @@ public class MailService {
 
             helper.setText(htmlTemplate, true);
 
+            helper.addInline("mail_1_pw", convertInputStreamToFile(
+                    new ClassPathResource("static/images/mail_1_pw.png").getInputStream()));
+            helper.addInline("mail_3", convertInputStreamToFile(
+                    new ClassPathResource("static/images/mail_3.png").getInputStream()));
 
-
-
-
-            Resource resource = new ClassPathResource("static/images/mail_1_pw.png");
-            InputStream inputStream1 = resource.getInputStream();
-
-            FileSystemResource mail_1_pw = new FileSystemResource(convertInputStreamToFile(inputStream1));
-            helper.addInline("mail_1_pw", mail_1_pw);
-
-
-            Resource resource2 = new ClassPathResource("static/images/mail_1_pw.png");
-            InputStream inputStream2 = resource2.getInputStream();
-
-            FileSystemResource mail_3 = new FileSystemResource(convertInputStreamToFile(inputStream2));
-            helper.addInline("mail_3", mail_3);
-
-
-//            FileSystemResource mail_1_pw = new FileSystemResource(new File("src/main/resources/static/images/mail_1_pw.png"));
-//            helper.addInline("mail_1_pw", mail_1_pw);
-//
-//            FileSystemResource mail_3 = new FileSystemResource(new File("src/main/resources/static/images/mail_3.png"));
-//            helper.addInline("mail_3", mail_3);
-
-        } catch (MessagingException e) {
-            throw new IllegalStateException("메세지 전송중 예외 발생 : lostpw");
-        } catch (IOException e) {
+        } catch (MessagingException | IOException e ) {
             e.printStackTrace();
+            throw new IllegalStateException("메세지 전송중 예외 발생 : lostpw");
         }
 
         mailSender.send(mimeMessage);
@@ -98,7 +76,6 @@ public class MailService {
             helper.setTo(userEmail);
             helper.setSubject("[오감] 이메일을 인증해 주세요");
 
-
             Map<String, Object> variables = new HashMap<>();
             variables.put("code", randomCode);
 
@@ -109,41 +86,24 @@ public class MailService {
 
             helper.setText(htmlTemplate, true);
 
-            FileSystemResource mail_1_email = new FileSystemResource(new File("src/main/resources/static/images/mail_1_email.png"));
-            helper.addInline("mail_1_email", mail_1_email);
+            helper.addInline("mail_1_email", convertInputStreamToFile(
+                    new ClassPathResource("static/images/mail_1_email.png").getInputStream()));
+            helper.addInline("mail_3", convertInputStreamToFile(
+                    new ClassPathResource("static/images/mail_3.png").getInputStream()));
 
-            FileSystemResource mail_3 = new FileSystemResource(new File("src/main/resources/static/images/mail_3.png"));
-            helper.addInline("mail_3", mail_3);
 
-        } catch (MessagingException e) {
+//            Resource resource2 = new ClassPathResource("static/images/mail_3.png");
+//            InputStream inputStream2 = resource2.getInputStream();
+//            FileSystemResource mail_3 = new FileSystemResource(convertInputStreamToFile(inputStream2));
+//            helper.addInline("mail_3", mail_3);
+
+        } catch (MessagingException | IOException e ) {
+            e.printStackTrace();
             throw new IllegalStateException("메세지 전송중 예외 발생 : validateEmail");
         }
 
         mailSender.send(mimeMessage);
     }
 
-    public static File convertInputStreamToFile(InputStream inputStream) throws IOException {
 
-        File tempFile = File.createTempFile(String.valueOf(inputStream.hashCode()), ".tmp");
-        tempFile.deleteOnExit();
-
-        copyInputStreamToFile(inputStream, tempFile);
-
-        return tempFile;
-    }
-
-    private static void copyInputStreamToFile(InputStream inputStream, File file) {
-
-        try (FileOutputStream outputStream = new FileOutputStream(file)) {
-            int read;
-            byte[] bytes = new byte[1024];
-
-            while ((read = inputStream.read(bytes)) != -1) {
-                outputStream.write(bytes, 0, read);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 }

@@ -1,4 +1,4 @@
-package fivesenses.server.fivesenses.util;
+package fivesenses.server.fivesenses.jwt;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

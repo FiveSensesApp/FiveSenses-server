@@ -9,7 +9,7 @@ import fivesenses.server.fivesenses.entity.UserAuthority;
 import fivesenses.server.fivesenses.repository.AuthorityRepository;
 import fivesenses.server.fivesenses.repository.UserAuthorityRepository;
 import fivesenses.server.fivesenses.repository.UserRepository;
-import fivesenses.server.fivesenses.util.SecurityUtil;
+import fivesenses.server.fivesenses.jwt.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
