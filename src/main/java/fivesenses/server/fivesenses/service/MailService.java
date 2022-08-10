@@ -42,7 +42,7 @@ public class MailService {
             Context context = new Context();
             context.setVariables(variables);
 
-            String htmlTemplate = htmlTemplateEngine.process("/lost_pw", context);
+            String htmlTemplate = htmlTemplateEngine.process("mail/lost_pw", context);
 
             helper.setText(htmlTemplate, true);
 
@@ -79,7 +79,7 @@ public class MailService {
             Context context = new Context();
             context.setVariables(variables);
 
-            String htmlTemplate = htmlTemplateEngine.process("/email_code", context);
+            String htmlTemplate = htmlTemplateEngine.process("mail/email_code", context);
 
             helper.setText(htmlTemplate, true);
 
