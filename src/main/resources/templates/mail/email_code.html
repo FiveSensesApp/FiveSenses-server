@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" name="color-scheme" content="light only">
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body>
+
+<div class="container" style="background: #ffffff;">
+
+    <div style="text-align: center;" ><img src="cid:mail_1_email"></div><br><br><br>
+
+    <div style="color:#82857A;text-align:center; font-size: 16px;">
+        취향 기록 서비스 '오감'에<br>
+        가입해주셔서 감사합니다.<br><br>
+
+        계정 생성을 위한<br>
+        이메일 인증 코드를 보내드립니다.<br><br>
+    </div><br><br>
+
+    <div class="code" style="
+    color:#1B210D;text-align:center; font-size: 36px; font-weight: bold;
+
+border-radius: 60px;
+  background: #F4F4F3;
+  padding: 5px;
+  margin: auto;
+
+  width: 311px;
+  height: 50px;
+
+
+" th:text="${code}" >code</div><br><br>
+
+    <div style="color:#FF6E83;text-align:center; font-size: 16px;">
+        인증 코드를 입력하시면,<br>
+        가입이 안전하게 진행됩니다!<br><br>
+    </div><br><br><br>
+
+    <div style="text-align: center;"><img src="cid:mail_3" ></div>
+
+</div>
+
+</body>
+
+</html>

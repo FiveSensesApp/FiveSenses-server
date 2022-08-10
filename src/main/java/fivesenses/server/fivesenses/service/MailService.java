@@ -1,39 +1,98 @@
 package fivesenses.server.fivesenses.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class MailService {
+
     private final JavaMailSender mailSender;
+    private final TemplateEngine htmlTemplateEngine;
+
     private static final String FROM_ADDRESS = "hi.mangpo@gmail.com";
 
-    public void lostPw(String userEmail, String randomPw) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(userEmail);
-        message.setFrom(MailService.FROM_ADDRESS);
-        message.setSubject("[중요] OurPage에서 비밀번호 분실 관련 안내말씀 드립니다.");
-        message.setText(
-                "비밀번호 분실로 인해 요청하신 임시 비밀번호를 발송해 드립니다.\n" +
-                        randomPw + "\n 임시 비밀번호를 이용해 로그인 하신 후 비밀번호를 즉시 변경해주세요."
-        );
 
-        mailSender.send(message);
+    public void lostPw(String userEmail, String randomPw) {
+
+        final MimeMessage mimeMessage = mailSender.createMimeMessage();
+        final MimeMessageHelper helper; // true = multipart
+
+        try {
+            helper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
+
+            helper.setFrom(FROM_ADDRESS);
+            helper.setTo(userEmail);
+            helper.setSubject("[오감] 임시 비밀번호를 발급합니다!");
+
+
+            Map<String, Object> variables = new HashMap<>();
+            variables.put("pw", randomPw);
+
+            Context context = new Context();
+            context.setVariables(variables);
+
+            String htmlTemplate = htmlTemplateEngine.process("/mail/lost_pw", context);
+
+            helper.setText(htmlTemplate, true);
+
+            FileSystemResource mail_1_pw = new FileSystemResource(new File("src/main/resources/static/images/mail_1_pw.png"));
+            helper.addInline("mail_1_pw", mail_1_pw);
+
+            FileSystemResource mail_3 = new FileSystemResource(new File("src/main/resources/static/images/mail_3.png"));
+            helper.addInline("mail_3", mail_3);
+
+        } catch (MessagingException e) {
+            throw new IllegalStateException("메세지 전송중 예외 발생 : lostpw");
+        }
+
+        mailSender.send(mimeMessage);
     }
 
-    public void validateEmail(String userEmail, String randomCode) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(userEmail);
-        message.setFrom(MailService.FROM_ADDRESS);
-        message.setSubject("[중요] OurPage에서 이메일 인증 관련 안내말씀 드립니다.");
-        message.setText(
-                "이메일 인증을 위한 코드를 발송해 드립니다.\n" +
-                        randomCode + "\n 위 인증 코드를 앱으로 돌아가서 입력해 주세요."
-        );
 
-        mailSender.send(message);
+    public void validateEmail(String userEmail, String randomCode) {
+
+        final MimeMessage mimeMessage = mailSender.createMimeMessage();
+        final MimeMessageHelper helper; // true = multipart
+
+        try {
+            helper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
+
+            helper.setFrom(FROM_ADDRESS);
+            helper.setTo(userEmail);
+            helper.setSubject("[오감] 이메일을 인증해 주세요");
+
+
+            Map<String, Object> variables = new HashMap<>();
+            variables.put("code", randomCode);
+
+            Context context = new Context();
+            context.setVariables(variables);
+
+            String htmlTemplate = htmlTemplateEngine.process("/mail/email_code", context);
+
+            helper.setText(htmlTemplate, true);
+
+            FileSystemResource mail_1_email = new FileSystemResource(new File("src/main/resources/static/images/mail_1_email.png"));
+            helper.addInline("mail_1_email", mail_1_email);
+
+            FileSystemResource mail_3 = new FileSystemResource(new File("src/main/resources/static/images/mail_3.png"));
+            helper.addInline("mail_3", mail_3);
+
+        } catch (MessagingException e) {
+            throw new IllegalStateException("메세지 전송중 예외 발생 : validateEmail");
+        }
+
+        mailSender.send(mimeMessage);
     }
 }

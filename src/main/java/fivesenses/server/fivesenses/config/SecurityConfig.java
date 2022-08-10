@@ -50,7 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/h2-console/**"
                         ,"/favicon.ico"
-                        ,"/error"
+                        ,"/error",
+                        "/resources/**"
 
                 );
 
