@@ -25,17 +25,6 @@ public class PostController {
 
     private final PostService postService;
 
-    @ApiOperation(value="취향 게시물 생성", notes="")
-//    @ApiImplicitParam(name = "", value = "")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "", value = ""),
-//            @ApiImplicitParam(name = "", value = "")
-//    })
-//    @ApiResponses({
-//            @ApiResponse(responseCode = "200", description = "API 정상 작동"),
-//            @ApiResponse(responseCode = "500", description = "에러"),
-//    })
-
     @PostMapping
     public ResponseEntity<Result<PostResponseDto>> createPost(@RequestBody PostRequestDto postRequestDto,
                                                               UriComponentsBuilder b) {
@@ -52,7 +41,6 @@ public class PostController {
         return new ResponseEntity<>(result, httpHeaders, HttpStatus.CREATED);
     }
 
-    @ApiOperation(value="취향 게시물 생성", notes="")
     @GetMapping("/{postId}")
     public ResponseEntity<Result<PostResponseDto>> getPost(@PathVariable Long postId) {
         Post post = postService.findPostById(postId);

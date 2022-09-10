@@ -12,7 +12,6 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.mail.MessagingException;
 import java.io.IOException;
 
-@ApiIgnore
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")
