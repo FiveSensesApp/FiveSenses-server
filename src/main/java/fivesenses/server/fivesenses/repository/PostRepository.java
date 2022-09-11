@@ -21,4 +21,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Slice<Post> findSliceByUserAndCreatedDate(User user, LocalDateTime createdDate, Pageable pageable);
 
     Slice<Post> findSliceByUserAndCreatedDateBetween(User user, LocalDateTime start, LocalDateTime end, Pageable pageable);
+
+    Long countByUserAndCategory(User user, Category category);
+
+    Long countByUserAndStar(User user, Integer star);
+
+    Long countByUserAndCreatedDateBetween(User user, LocalDateTime start, LocalDateTime end);
 }

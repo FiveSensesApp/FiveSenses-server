@@ -74,7 +74,7 @@ public class PostController {
     public ResponseEntity<Result<Slice<PostResponseDto>>> getPosts(@RequestParam Long userId,
                                                                    @RequestParam(required = false) Category category,
                                                                    @RequestParam(required = false) Integer star,
-                                                                   @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate createdDate,
+                                                                   @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate createdDate,
                                                                    Pageable pageable) {
         Slice<PostResponseDto> postDtos = postService.findSliceByUser(userId, category, star, createdDate, pageable)
                 .map(PostResponseDto::new);
@@ -82,4 +82,17 @@ public class PostController {
         Result<Slice<PostResponseDto>> result = new Result<>(new Meta(HttpStatus.OK.value()), postDtos);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<Result<Long>> getCountByParam(@RequestParam Long userId,
+                                                           @RequestParam(required = false) Category category,
+                                                           @RequestParam(required = false) Integer star,
+                                                           @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate createdDate) {
+
+        Long count = postService.findCountByParam(userId, category, star, createdDate);
+
+        Result<Long> result = new Result<>(new Meta(HttpStatus.OK.value()), count);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }

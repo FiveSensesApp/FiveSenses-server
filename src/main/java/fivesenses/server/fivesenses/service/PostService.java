@@ -63,8 +63,29 @@ public class PostService {
                     user,
                     LocalDateTime.of(createdDate, LocalTime.of(0,0,0)),
                     LocalDateTime.of(createdDate, LocalTime.of(23,59,59)),
-                    pageable);
+                    pageable
+            );
 
         return postRepository.findSliceByUser(user, pageable);
     }
+
+    public Long findCountByParam(Long userId, Category category, Integer star, LocalDate createdDate) {
+        User user = userService.findById(userId);
+
+        if(category == null && star == null && createdDate == null)
+            throw new IllegalStateException("검색 조건을 명시하지 않았습니다.");
+
+        if(category != null)
+            return postRepository.countByUserAndCategory(user, category);
+        if(star != null)
+            return postRepository.countByUserAndStar(user, star);
+        if(createdDate != null)
+            return postRepository.countByUserAndCreatedDateBetween(user,
+                    LocalDateTime.of(createdDate, LocalTime.of(0,0,0)),
+                    LocalDateTime.of(createdDate, LocalTime.of(23,59,59))
+            );
+
+        return 0L;
+    }
+
 }
