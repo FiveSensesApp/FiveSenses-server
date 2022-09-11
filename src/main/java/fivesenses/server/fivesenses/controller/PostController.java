@@ -1,6 +1,7 @@
 package fivesenses.server.fivesenses.controller;
 
 import fivesenses.server.fivesenses.dto.*;
+import fivesenses.server.fivesenses.entity.Category;
 import fivesenses.server.fivesenses.entity.Post;
 import fivesenses.server.fivesenses.service.PostService;
 import io.swagger.annotations.ApiOperation;
@@ -10,12 +11,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Slf4j
 @RestController
@@ -66,8 +71,12 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<Result<Slice<PostResponseDto>>> getPosts(@RequestParam Long userId, Pageable pageable) {
-        Slice<PostResponseDto> postDtos = postService.findSliceByUser(userId, pageable)
+    public ResponseEntity<Result<Slice<PostResponseDto>>> getPosts(@RequestParam Long userId,
+                                                                   @RequestParam(required = false) Category category,
+                                                                   @RequestParam(required = false) Integer star,
+                                                                   @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate createdDate,
+                                                                   Pageable pageable) {
+        Slice<PostResponseDto> postDtos = postService.findSliceByUser(userId, category, star, createdDate, pageable)
                 .map(PostResponseDto::new);
 
         Result<Slice<PostResponseDto>> result = new Result<>(new Meta(HttpStatus.OK.value()), postDtos);
