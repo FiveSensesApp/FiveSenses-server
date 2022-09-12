@@ -92,6 +92,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/users/validate-duplicate").permitAll()
                 .antMatchers("/api/users/lost-pw").permitAll()
+                .antMatchers("/api/users/validate-email").permitAll()
+                .antMatchers("/api/users/validate-email-send-code").permitAll()
 
                 .antMatchers("/api/files/upload").permitAll()
 

@@ -6,10 +6,12 @@ import fivesenses.server.fivesenses.dto.CreateUserDto;
 import fivesenses.server.fivesenses.entity.Authority;
 import fivesenses.server.fivesenses.entity.User;
 import fivesenses.server.fivesenses.entity.UserAuthority;
+import fivesenses.server.fivesenses.entity.UserTemp;
 import fivesenses.server.fivesenses.repository.AuthorityRepository;
 import fivesenses.server.fivesenses.repository.UserAuthorityRepository;
 import fivesenses.server.fivesenses.repository.UserRepository;
 import fivesenses.server.fivesenses.jwt.SecurityUtil;
+import fivesenses.server.fivesenses.repository.UserTempRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
+import static fivesenses.server.fivesenses.entity.QUser.user;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -29,6 +35,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
     private final UserAuthorityRepository userAuthorityRepository;
+    private final UserTempRepository userTempRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -46,7 +53,8 @@ public class UserService {
         validateDuplicateUser(user.getEmail());
         userRepository.save(user);
 
-        Authority role = authorityRepository.findById("ROLE_NEED_EMAIL").get();
+//        Authority role = authorityRepository.findById("ROLE_NEED_EMAIL").get();
+        Authority role = authorityRepository.findById("ROLE_USER").get();
 
         UserAuthority userAuthority = UserAuthority.builder()
                 .authority(role)
@@ -103,30 +111,33 @@ public class UserService {
     }
 
     @Transactional
-    public void validateEmail(){
-        String randomValidCode = generateRandomValidCode();
+    public void validateEmail(String email){
+        UserTemp userTemp = userTempRepository.findByEmail(email);
 
-        User user = findUserFromToken();
-        user.changeEmailValidCode(randomValidCode);
+        if(userTemp == null)
+            userTemp = userTempRepository.save(new UserTemp(email));
+
+        String randomValidCode = generateRandomValidCode();
+        userTemp.changeEmailValidCode(randomValidCode);
 
         //send mail
-        String userEmail = user.getEmail();
-        mailService.validateEmail(userEmail,randomValidCode);
+        mailService.validateEmail(email,randomValidCode);
     }
 
     @Transactional
-    public void validateEmailSendCode(String emailValidCode){
-        User user = findUserFromToken();
+    public void validateEmailSendCode(String email, String emailValidCode){
 
-        if (!user.getEmailValidCode().equals(emailValidCode))
+        UserTemp userTemp = userTempRepository.findByEmail(email);
+        if(userTemp == null)
+            throw new EntityNotFoundException("존재하지 않는 임시 인증 정보입니다.");
+
+        if (!userTemp.getEmailValidCode().equals(emailValidCode))
             throw new IllegalStateException("잘못된 인증 코드를 입력했습니다.");
 
-        user.changeEmailValidCode(null);
-
-        Authority role = authorityRepository.findById("ROLE_USER").get();
-        UserAuthority userAuthority = userAuthorityRepository.findByUser(user);
-        userAuthority.changeAuthority(role);
+        userTempRepository.delete(userTemp);
     }
+
+
 
     private String generateRandomPw() {
         int max = 9999999;

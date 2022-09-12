@@ -53,14 +53,14 @@ public class UserController {
     }
 
     @PostMapping("/validate-email")
-    public ResponseEntity<?> validateEmail() {
-        userService.validateEmail();
+    public ResponseEntity<?> validateEmail(@RequestParam String email) {
+        userService.validateEmail(email);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/validate-email-send-code")
-    public ResponseEntity<?> validateEmailSendCode(@RequestParam String emailCode) {
-        userService.validateEmailSendCode(emailCode);
+    public ResponseEntity<?> validateEmailSendCode(@RequestParam String email, @RequestParam String emailCode) {
+        userService.validateEmailSendCode(email, emailCode);
         return ResponseEntity.noContent().build();
     }
 
