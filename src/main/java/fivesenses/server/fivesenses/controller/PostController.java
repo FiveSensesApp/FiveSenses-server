@@ -58,7 +58,8 @@ public class PostController {
     public ResponseEntity<?> deletePost(@PathVariable Long postId) {
         postService.deletePost(postId);
 
-        return ResponseEntity.noContent().build();
+        Result<?> result = new Result<>(new Meta(HttpStatus.OK.value()));
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PatchMapping("/{postId}")

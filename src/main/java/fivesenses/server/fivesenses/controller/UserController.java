@@ -31,37 +31,49 @@ public class UserController {
     @PutMapping("/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody UpdateUserDto updateUserDto) {
         userService.updateUser(updateUserDto);
-        return ResponseEntity.noContent().build();
+
+        Result<?> result = new Result<>(new Meta(HttpStatus.OK.value()));
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/validate-duplicate")
     public ResponseEntity<?> validateDuplicate(@RequestBody UserValidationDto userValidationDto) {
         userService.validateDuplicateUser(userValidationDto.getEmail());
-        return ResponseEntity.noContent().build();
+
+        Result<?> result = new Result<>(new Meta(HttpStatus.OK.value()));
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/change-pw")
     public ResponseEntity<?> changePassword(@RequestBody ChangePwDto changePwDto) {
         userService.changePassword(changePwDto);
-        return ResponseEntity.noContent().build();
+
+        Result<?> result = new Result<>(new Meta(HttpStatus.OK.value()));
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/lost-pw")
     public ResponseEntity<?> lostPassword(@RequestParam String userEmail) {
         userService.lostPassword(userEmail);
-        return ResponseEntity.noContent().build();
+
+        Result<?> result = new Result<>(new Meta(HttpStatus.OK.value()));
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/validate-email")
     public ResponseEntity<?> validateEmail(@RequestParam String email) {
         userService.validateEmail(email);
-        return ResponseEntity.noContent().build();
+
+        Result<?> result = new Result<>(new Meta(HttpStatus.OK.value()));
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/validate-email-send-code")
     public ResponseEntity<?> validateEmailSendCode(@RequestParam String email, @RequestParam String emailCode) {
         userService.validateEmailSendCode(email, emailCode);
-        return ResponseEntity.noContent().build();
+
+        Result<?> result = new Result<>(new Meta(HttpStatus.OK.value()));
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 //    @DeleteMapping("/{id}")
