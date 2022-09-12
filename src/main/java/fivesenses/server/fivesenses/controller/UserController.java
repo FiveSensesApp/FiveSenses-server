@@ -78,7 +78,7 @@ public class UserController {
 
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-//        User user = userService.findUser(id);
+//        User user = userService.deleteUser(id);
 //    }
 
     @Data

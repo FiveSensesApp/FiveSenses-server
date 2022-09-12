@@ -1,12 +1,14 @@
 package fivesenses.server.fivesenses.controller;
 
+import fivesenses.server.fivesenses.dto.Meta;
+import fivesenses.server.fivesenses.dto.Result;
+import fivesenses.server.fivesenses.entity.User;
+import fivesenses.server.fivesenses.service.AdminService;
 import fivesenses.server.fivesenses.service.MailService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.mail.MessagingException;
@@ -17,12 +19,14 @@ import java.io.IOException;
 @RequestMapping("/api/admin")
 public class AdminController {
 
-
+    private final AdminService adminService;
     private final MailService mailService;
-//
-//    @PostMapping("/lost-pw2")
-//    public String lostPassword2(@RequestParam String userEmail) throws MessagingException, IOException {
-//        String s = mailService.lostPw2(userEmail,"1234");
-//        return s;
-//    }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        adminService.deleteUser(id);
+
+        Result<?> result = new Result<>(new Meta(HttpStatus.OK.value()));
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }

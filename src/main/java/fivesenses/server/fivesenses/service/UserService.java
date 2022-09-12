@@ -152,4 +152,5 @@ public class UserService {
         int randomNum = (int) ((Math.random() * (max - min)) + min);
         return String.valueOf(randomNum);
     }
+
 }

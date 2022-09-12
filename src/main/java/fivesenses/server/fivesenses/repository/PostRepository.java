@@ -27,4 +27,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Long countByUserAndStar(User user, Integer star);
 
     Long countByUserAndCreatedDateBetween(User user, LocalDateTime start, LocalDateTime end);
+
+    void deleteAllByUser(User user);
 }
