@@ -15,6 +15,7 @@ import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 
 @Service
@@ -88,4 +89,8 @@ public class PostService {
         return 0L;
     }
 
+    public List<Post> searchKeywordLike(String query) {
+        User user = userService.findUserFromToken();
+        return postRepository.findByUserAndKeywordContaining(user, query);
+    }
 }

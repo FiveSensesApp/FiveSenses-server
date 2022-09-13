@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
@@ -29,4 +30,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Long countByUserAndCreatedDateBetween(User user, LocalDateTime start, LocalDateTime end);
 
     void deleteAllByUser(User user);
+
+//    List<Post> findByKeywordContaining(String query);
+
+    List<Post> findByUserAndKeywordContaining(User user, String query);
 }

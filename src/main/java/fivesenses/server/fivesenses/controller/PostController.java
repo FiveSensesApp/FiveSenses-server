@@ -4,9 +4,6 @@ import fivesenses.server.fivesenses.dto.*;
 import fivesenses.server.fivesenses.entity.Category;
 import fivesenses.server.fivesenses.entity.Post;
 import fivesenses.server.fivesenses.service.PostService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +17,9 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -95,5 +94,18 @@ public class PostController {
         Result<Long> result = new Result<>(new Meta(HttpStatus.OK.value()), count);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @GetMapping("/search-keyword")
+    public ResponseEntity<Result<List<PostResponseDto>>> searchKeywordLike(@RequestParam String query){
+        List<PostResponseDto> postResponseDtos = postService.searchKeywordLike(query).stream()
+                .map(PostResponseDto::new)
+                .sorted((p1, p2) -> Long.compare(p2.getId(), p1.getId()))
+                .collect(Collectors.toList());
+
+        Result<List<PostResponseDto>> result = new Result<>(new Meta(HttpStatus.OK.value()), postResponseDtos);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+
 
 }
