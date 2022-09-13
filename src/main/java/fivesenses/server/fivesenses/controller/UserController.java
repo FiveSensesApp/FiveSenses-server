@@ -3,6 +3,7 @@ package fivesenses.server.fivesenses.controller;
 import fivesenses.server.fivesenses.dto.*;
 import fivesenses.server.fivesenses.entity.Post;
 import fivesenses.server.fivesenses.entity.User;
+import fivesenses.server.fivesenses.service.StatService;
 import fivesenses.server.fivesenses.service.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final StatService statService;
 
     @GetMapping("/{userId}")
     public ResponseEntity<Result<UserResponseDto>> getUserInfo(@PathVariable Long userId) {
@@ -80,6 +82,15 @@ public class UserController {
 //    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 //        User user = userService.deleteUser(id);
 //    }
+
+//    @GetMapping("/{userId}/stat")
+//    public ResponseEntity<Result<StatResponseDto>> getStat(@PathVariable Long userId) {
+//        StatResponseDto statResponseDto = statService.getStat(userId);
+//
+//        Result<UserResponseDto> result = new Result<>(new Meta(HttpStatus.OK.value()), new UserResponseDto(user));
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
+
 
     @Data
     static class UserValidationDto {
