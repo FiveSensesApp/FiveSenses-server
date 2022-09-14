@@ -53,7 +53,7 @@ public class BadgeService {
     public void updateBadge(BadgeRequestDto b){
         Badge badge = findById(b.getId());
 
-        badge.update(b.getId(), b.getImgUrl());
+        badge.update(b.getId(), b.getImgUrl(), b.getDescription(), b.getCondition(), b.getConditionShort());
     }
 
 }
