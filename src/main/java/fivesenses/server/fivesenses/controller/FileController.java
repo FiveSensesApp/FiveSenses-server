@@ -3,7 +3,6 @@ package fivesenses.server.fivesenses.controller;
 import fivesenses.server.fivesenses.dto.Meta;
 import fivesenses.server.fivesenses.dto.Result;
 import fivesenses.server.fivesenses.service.S3Service;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,7 +20,7 @@ public class FileController {
 
     @PutMapping("/upload")
     public ResponseEntity<Result<String>> upload(@RequestParam("data") MultipartFile multipartFile) throws IOException {
-        String imgLocation = s3Service.upload(multipartFile);
+        String imgLocation = s3Service.uploadWithUUID(multipartFile);
 
         Result<String> result = new Result<>(new Meta(HttpStatus.OK.value()), imgLocation);
         return new ResponseEntity<>(result, HttpStatus.OK);

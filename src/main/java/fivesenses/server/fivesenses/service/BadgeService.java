@@ -6,6 +6,7 @@ import fivesenses.server.fivesenses.repository.BadgeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -13,20 +14,33 @@ import javax.persistence.EntityNotFoundException;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BadgeService {
+    private final static
+    String DIR_BEFORE = "images/badges_before/",
+            DIR_AFTER = "images/badges_after/";
 
+    private final S3Service s3Service;
     private final BadgeRepository badgeRepository;
 
     public Badge findById(String id){
         return badgeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 배지입니다."));
     }
-    @Transactional
-    public String createBadge(BadgeRequestDto b){
-        Badge badge = Badge.builder()
-                .id(b.getId())
-                .imgUrl(b.getImgUrl())
-                .build();
 
-        return badgeRepository.save(badge).getId();
+    @Transactional
+    public void createBadge(MultipartFile[] files, String dirName){
+        if(dirName.equals("before")) dirName = DIR_BEFORE;
+        else if(dirName.equals("after")) dirName = DIR_AFTER;
+        else throw new IllegalStateException("잘못된 dirName.");
+
+        for (MultipartFile m : files){
+            String imgUrl = s3Service.upload(m, dirName);
+
+            Badge badge = Badge.builder()
+                    .id(m.getOriginalFilename())
+                    .imgUrl(imgUrl)
+                    .build();
+
+            badgeRepository.save(badge);
+        }
     }
 
     @Transactional

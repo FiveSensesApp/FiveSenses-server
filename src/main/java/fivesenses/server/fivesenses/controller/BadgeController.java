@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,8 +35,8 @@ public class BadgeController {
     }
 
     @PostMapping("/badges")
-    public ResponseEntity<?> createBadge(@RequestBody BadgeRequestDto badgeRequestDto){
-        badgeService.createBadge(badgeRequestDto);
+    public ResponseEntity<?> createBadges(@RequestParam("data") MultipartFile[] files, @RequestParam String dirName){
+        badgeService.createBadge(files, dirName);
 
         Result<?> result = new Result<>(new Meta(HttpStatus.OK.value()));
         return new ResponseEntity<>(result, HttpStatus.OK);

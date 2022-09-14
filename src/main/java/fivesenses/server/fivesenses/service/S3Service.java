@@ -4,32 +4,26 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteObjectsRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
-@Component
+@Service
 public class S3Service {
 
-    private final static String DIR_NAME = "images/";
+    private final static
+    String DIR_IMAGES = "images/";
 
     private AmazonS3 s3Client;
 
@@ -55,10 +49,10 @@ public class S3Service {
                 .build();
     }
 
-    public String upload(MultipartFile file) throws IOException {
+    public String uploadWithUUID(MultipartFile file) throws IOException {
         StringBuffer sb = new StringBuffer();
 
-        String fileName = sb.append(DIR_NAME)
+        String fileName = sb.append(DIR_IMAGES)
                 .append(UUID.randomUUID().toString())
                 .append("_")
                 .append(file.getOriginalFilename())
@@ -70,10 +64,29 @@ public class S3Service {
         return s3Client.getUrl(bucket, fileName).toString();
     }
 
+    public String upload(MultipartFile file, String dirName) {
+        StringBuffer sb = new StringBuffer();
+
+        String fileName = sb.append(dirName)
+                .append(file.getOriginalFilename())
+                .toString();
+
+        try {
+            s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalStateException("S3 예외 발생 : upload");
+        }
+
+        return s3Client.getUrl(bucket, fileName).toString();
+    }
+
     public void deleteFile(String fileName) {
-        String path = DIR_NAME + fileName;
+        String path = DIR_IMAGES + fileName;
 
         s3Client.deleteObject(bucket, path);
     }
+
 
 }

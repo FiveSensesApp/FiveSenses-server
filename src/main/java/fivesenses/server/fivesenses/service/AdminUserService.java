@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class UserAdminService {
+public class AdminUserService {
 
     private final UserService userService;
 
