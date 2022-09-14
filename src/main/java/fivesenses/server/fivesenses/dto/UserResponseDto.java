@@ -15,7 +15,7 @@ public class UserResponseDto {
     private Long id;
     private String nickname;
     private Boolean isAlarmOn;
-    private LocalDateTime alarmDate;
+    private String alarmDate;
     private String email;
     private String emailValidCode;
     private String badgeRepresent;

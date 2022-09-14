@@ -15,5 +15,5 @@ public class UpdateUserDto {
     private String nickname;
     private Boolean isAlarmOn;
     private String badgeRepresent;
-    private LocalDateTime alarmDate;
+    private String alarmDate;
 }

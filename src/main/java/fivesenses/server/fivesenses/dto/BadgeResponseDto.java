@@ -11,20 +11,20 @@ import lombok.NoArgsConstructor;
 public class BadgeResponseDto {
 
     private String id;
-    private Integer sequence;
+    private Integer seqNum;
     private String imgUrl;
     private String description;
-    private String condition;
-    private String conditionShort;
+    private String reqCondition;
+    private String reqConditionShort;
     private Boolean isBefore;
 
     public BadgeResponseDto(Badge badge) {
         this.id = badge.getId();
-        this.sequence = badge.getSequence();
+        this.seqNum = badge.getSeqNum();
         this.imgUrl = badge.getImgUrl();
         this.description = badge.getDescription();
-        this.condition = badge.getCondition();
-        this.conditionShort = badge.getConditionShort();
+        this.reqCondition = badge.getReqCondition();
+        this.reqConditionShort = badge.getReqConditionShort();
         this.isBefore = badge.getIsBefore();
     }
 }

@@ -24,7 +24,7 @@ public class User extends BaseTimeEntity {
     private String password;
     private String nickname;
     private Boolean isAlarmOn;
-    private LocalDateTime alarmDate;
+    private String alarmDate;
     private String badgeRepresent;
     private String email;
     private String emailValidCode;

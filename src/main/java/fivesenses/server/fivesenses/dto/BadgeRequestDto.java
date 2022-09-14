@@ -11,20 +11,20 @@ import lombok.NoArgsConstructor;
 public class BadgeRequestDto {
 
     private String id;
-    private Integer sequence;
+    private Integer seqNum;
     private String imgUrl;
     private String description;
-    private String condition;
-    private String conditionShort;
+    private String reqCondition;
+    private String reqConditionShort;
     private Boolean isBefore;
 
     public Badge toEntityExceptId(){
         return Badge.builder()
-                .sequence(sequence)
+                .seqNum(seqNum)
                 .imgUrl(imgUrl)
                 .description(description)
-                .condition(condition)
-                .conditionShort(conditionShort)
+                .reqCondition(reqCondition)
+                .reqConditionShort(reqConditionShort)
                 .isBefore(isBefore)
                 .build();
     }

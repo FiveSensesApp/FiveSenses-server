@@ -15,7 +15,7 @@ public class CreateUserDto {
     private String password;
     private String nickname;
     private Boolean isAlarmOn;
-    private LocalDateTime alarmDate;
+    private String alarmDate;
     private String email;
 
     public User toEntityExceptId(){

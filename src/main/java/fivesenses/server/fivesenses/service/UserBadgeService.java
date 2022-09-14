@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,16 +37,16 @@ public class UserBadgeService {
 
         List<Badge> badgesPresent = userBadgeRepository.findListByUser(user).stream()
                 .map(UserBadge::getBadge)
-                .sorted(Comparator.comparingInt(Badge::getSequence))
+                .sorted(Comparator.comparingInt(Badge::getSeqNum))
                 .collect(Collectors.toList());
 
         List<Badge> allBadges = badgeService.findAll().stream()
                 .filter(Badge::getIsBefore)
-                .sorted(Comparator.comparingInt(Badge::getSequence))
+                .sorted(Comparator.comparingInt(Badge::getSeqNum))
                 .collect(Collectors.toList());
 
         for(Badge b : badgesPresent)
-            allBadges.set(b.getSequence() - 1, b);
+            allBadges.set(b.getSeqNum() - 1, b);
 
         return allBadges;
     }

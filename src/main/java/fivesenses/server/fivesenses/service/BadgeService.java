@@ -52,7 +52,7 @@ public class BadgeService {
             Badge badge = Badge.builder()
                     .id(m.getOriginalFilename())
                     .imgUrl(imgUrl)
-                    .sequence(sequence)
+                    .seqNum(sequence)
                     .isBefore(isBefore)
                     .build();
 
@@ -71,7 +71,7 @@ public class BadgeService {
     public void updateBadge(BadgeRequestDto b){
         Badge badge = findById(b.getId());
 
-        badge.update(b.getId(), b.getSequence(), b.getImgUrl(), b.getDescription(), b.getCondition(), b.getConditionShort(), b.getIsBefore());
+        badge.update(b.getId(), b.getSeqNum(), b.getImgUrl(), b.getDescription(), b.getReqCondition(), b.getReqConditionShort(), b.getIsBefore());
     }
 
 }
