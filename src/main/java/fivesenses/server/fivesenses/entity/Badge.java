@@ -17,17 +17,20 @@ public class Badge {
     @Column(name = "badge_id")
     private String id;
 
+    private Integer sequence;
     private String imgUrl;
     private String description;
     private String condition;
     private String conditionShort;
+    private Boolean isBefore;
 
-    public void update(String id, String imgUrl, String description, String condition, String conditionShort) {
+    public void update(String id, Integer sequence, String imgUrl, String description, String condition, String conditionShort, Boolean isBefore) {
         if(id != null) this.id = id;
+        if (sequence != null) this.sequence = sequence;
         if(imgUrl != null) this.imgUrl = imgUrl;
         if (description != null) this.description = description;
         if (condition != null) this.condition = condition;
         if (conditionShort != null) this.conditionShort = conditionShort;
-
+        if(isBefore != null) this.isBefore = isBefore;
     }
 }

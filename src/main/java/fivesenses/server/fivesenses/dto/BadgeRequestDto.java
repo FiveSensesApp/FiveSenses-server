@@ -11,17 +11,21 @@ import lombok.NoArgsConstructor;
 public class BadgeRequestDto {
 
     private String id;
+    private Integer sequence;
     private String imgUrl;
     private String description;
     private String condition;
     private String conditionShort;
+    private Boolean isBefore;
 
     public Badge toEntityExceptId(){
         return Badge.builder()
+                .sequence(sequence)
                 .imgUrl(imgUrl)
                 .description(description)
                 .condition(condition)
                 .conditionShort(conditionShort)
+                .isBefore(isBefore)
                 .build();
     }
 }

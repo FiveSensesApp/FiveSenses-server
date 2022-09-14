@@ -10,7 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,9 +34,23 @@ public class UserBadgeService {
         return userBadgeRepository.findByUserId(userId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 UserBadge입니다."));
     }
 
-    public List<UserBadge> findListByUserId(Long userId) {
+    public List<Badge> findBadgeListByUserId(Long userId) {
         User user = userService.findById(userId);
-        return userBadgeRepository.findListByUser(user);
+
+        List<Badge> badgesPresent = userBadgeRepository.findListByUser(user).stream()
+                .map(UserBadge::getBadge)
+                .sorted(Comparator.comparingInt(Badge::getSequence))
+                .collect(Collectors.toList());
+
+        List<Badge> allBadges = badgeService.findAll().stream()
+                .filter(Badge::getIsBefore)
+                .sorted(Comparator.comparingInt(Badge::getSequence))
+                .collect(Collectors.toList());
+
+        for(Badge b : badgesPresent)
+            allBadges.set(b.getSequence() - 1, b);
+
+        return allBadges;
     }
 
     @Transactional

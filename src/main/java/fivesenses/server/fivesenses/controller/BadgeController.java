@@ -60,13 +60,12 @@ public class BadgeController {
 
     //============= UserBadge =============//
     @GetMapping("users/{userId}/badges")
-    public ResponseEntity<Result<List<UserBadgeResponseDto>>> getUserBadgesByUser(@PathVariable Long userId){
-        List<UserBadgeResponseDto> dtos = userBadgeService.findListByUserId(userId).stream()
-                .map(UserBadgeResponseDto::new)
-                .sorted((d1, d2) -> d2.getCreateDate().compareTo(d1.getCreateDate()))
+    public ResponseEntity<Result<List<BadgeResponseDto>>> getUserBadgesByUser(@PathVariable Long userId){
+        List<BadgeResponseDto> dtos = userBadgeService.findBadgeListByUserId(userId).stream()
+                .map(BadgeResponseDto::new)
                 .collect(Collectors.toList());
 
-        Result<List<UserBadgeResponseDto>> result = new Result<>(new Meta(HttpStatus.OK.value()), dtos);
+        Result<List<BadgeResponseDto>> result = new Result<>(new Meta(HttpStatus.OK.value()), dtos);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
