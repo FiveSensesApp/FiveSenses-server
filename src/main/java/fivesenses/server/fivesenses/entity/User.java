@@ -25,6 +25,7 @@ public class User extends BaseTimeEntity {
     private String nickname;
     private Boolean isAlarmOn;
     private LocalDateTime alarmDate;
+    private String badgeRepresent;
     private String email;
     private String emailValidCode;
 
@@ -52,6 +53,7 @@ public class User extends BaseTimeEntity {
                 ", nickname='" + nickname + '\'' +
                 ", isAlarmOn=" + isAlarmOn +
                 ", alarmDate=" + alarmDate +
+                ", badgeRepresent='" + badgeRepresent + '\'' +
                 ", email='" + email + '\'' +
                 ", emailValidCode='" + emailValidCode + '\'' +
                 ", userAuthorityList=" + userAuthorityList +
@@ -65,6 +67,8 @@ public class User extends BaseTimeEntity {
             isAlarmOn = dto.getIsAlarmOn();
         if(dto.getAlarmDate() != null)
             alarmDate = dto.getAlarmDate();
+        if(dto.getBadgeRepresent() != null)
+            badgeRepresent = dto.getBadgeRepresent();
 
     }
 }

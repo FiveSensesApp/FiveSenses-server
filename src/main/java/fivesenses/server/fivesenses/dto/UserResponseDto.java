@@ -18,6 +18,7 @@ public class UserResponseDto {
     private LocalDateTime alarmDate;
     private String email;
     private String emailValidCode;
+    private String badgeRepresent;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
@@ -28,6 +29,7 @@ public class UserResponseDto {
         alarmDate = u.getAlarmDate();
         email = u.getEmail();
         emailValidCode = u.getEmailValidCode();
+        badgeRepresent = u.getBadgeRepresent();
         createdDate = u.getCreatedDate();
         modifiedDate = u.getModifiedDate();
     }
