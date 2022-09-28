@@ -24,4 +24,13 @@ public class UserBadge extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "badge_id")
     private Badge badge;
+
+    @Override
+    public String toString() {
+        return "UserBadge{" +
+                "id=" + id +
+                ", user=" + user +
+                ", badge=" + badge +
+                '}';
+    }
 }

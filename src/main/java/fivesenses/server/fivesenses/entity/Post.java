@@ -43,4 +43,17 @@ public class Post extends BaseTimeEntity {
         if(pr.getContent() != null)
             content = pr.getContent();
     }
+
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", user=" + user +
+                ", category=" + category +
+                ", keyword='" + keyword + '\'' +
+                ", star=" + star +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

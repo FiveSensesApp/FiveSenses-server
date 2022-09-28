@@ -71,7 +71,7 @@ public class BadgeService {
     public void updateBadge(BadgeRequestDto b){
         Badge badge = findById(b.getId());
 
-        badge.update(b.getId(), b.getSeqNum(), b.getImgUrl(), b.getDescription(), b.getReqCondition(), b.getReqConditionShort(), b.getIsBefore());
+        badge.update(b.getId(), b.getSeqNum(), b.getImgUrl(), b.getDescription(), b.getReqCondition(), b.getReqConditionShort(), b.getIsBefore(), b.getName());
     }
 
 }

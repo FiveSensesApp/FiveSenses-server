@@ -45,6 +45,20 @@ public class User extends BaseTimeEntity {
         this.emailValidCode = emailValidCode;
     }
 
+
+    public void update(UpdateUserDto dto) {
+        if(dto.getNickname() != null)
+            nickname = dto.getNickname();
+        if(dto.getIsAlarmOn() != null)
+            isAlarmOn = dto.getIsAlarmOn();
+        if(dto.getAlarmDate() != null)
+            alarmDate = dto.getAlarmDate();
+        if(dto.getBadgeRepresent() != null)
+            badgeRepresent = dto.getBadgeRepresent();
+
+    }
+
+
     @Override
     public String toString() {
         return "User{" +
@@ -58,17 +72,5 @@ public class User extends BaseTimeEntity {
                 ", emailValidCode='" + emailValidCode + '\'' +
                 ", userAuthorityList=" + userAuthorityList +
                 '}';
-    }
-
-    public void update(UpdateUserDto dto) {
-        if(dto.getNickname() != null)
-            nickname = dto.getNickname();
-        if(dto.getIsAlarmOn() != null)
-            isAlarmOn = dto.getIsAlarmOn();
-        if(dto.getAlarmDate() != null)
-            alarmDate = dto.getAlarmDate();
-        if(dto.getBadgeRepresent() != null)
-            badgeRepresent = dto.getBadgeRepresent();
-
     }
 }

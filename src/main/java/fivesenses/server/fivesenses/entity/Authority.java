@@ -18,4 +18,12 @@ public class Authority {
    @Id
    @Column(name = "authority_name")
    private String authorityName;
+
+
+   @Override
+   public String toString() {
+      return "Authority{" +
+              "authorityName='" + authorityName + '\'' +
+              '}';
+   }
 }

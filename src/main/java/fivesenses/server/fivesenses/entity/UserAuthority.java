@@ -27,4 +27,14 @@ public class UserAuthority {
     public void changeAuthority(Authority authority){
         this.authority = authority;
     }
+
+
+    @Override
+    public String toString() {
+        return "UserAuthority{" +
+                "id=" + id +
+                ", user=" + user +
+                ", authority=" + authority +
+                '}';
+    }
 }

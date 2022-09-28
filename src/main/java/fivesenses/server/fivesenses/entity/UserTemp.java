@@ -27,4 +27,13 @@ public class UserTemp {
     public void changeEmailValidCode(String emailValidCode){
         this.emailValidCode = emailValidCode;
     }
+
+    @Override
+    public String toString() {
+        return "UserTemp{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", emailValidCode='" + emailValidCode + '\'' +
+                '}';
+    }
 }

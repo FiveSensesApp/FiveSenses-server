@@ -17,6 +17,7 @@ public class BadgeRequestDto {
     private String reqCondition;
     private String reqConditionShort;
     private Boolean isBefore;
+    private String name;
 
     public Badge toEntityExceptId(){
         return Badge.builder()
@@ -26,6 +27,7 @@ public class BadgeRequestDto {
                 .reqCondition(reqCondition)
                 .reqConditionShort(reqConditionShort)
                 .isBefore(isBefore)
+                .name(name)
                 .build();
     }
 }
