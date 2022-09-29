@@ -73,9 +73,11 @@ public class PostService {
     public Long findCountByParam(Long userId, Category category, Integer star, LocalDate createdDate) {
         User user = userService.findById(userId);
 
-        if(category == null && star == null && createdDate == null)
-            throw new IllegalStateException("검색 조건을 명시하지 않았습니다.");
+//        if(category == null && star == null && createdDate == null)
+//            throw new IllegalStateException("검색 조건을 명시하지 않았습니다.");
 
+        if(category == null && star == null && createdDate == null)
+            return postRepository.countByUser(user);
         if(category != null)
             return postRepository.countByUserAndCategory(user, category);
         if(star != null)
@@ -93,4 +95,10 @@ public class PostService {
         User user = userService.findUserFromToken();
         return postRepository.findByUserAndKeywordContaining(user, query);
     }
+
+    public List<Post> findListByUser(User user) {
+        return postRepository.findListByUser(user);
+    }
+
+
 }

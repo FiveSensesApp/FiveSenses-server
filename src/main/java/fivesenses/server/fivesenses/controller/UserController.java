@@ -1,9 +1,7 @@
 package fivesenses.server.fivesenses.controller;
 
 import fivesenses.server.fivesenses.dto.*;
-import fivesenses.server.fivesenses.entity.Post;
 import fivesenses.server.fivesenses.entity.User;
-import fivesenses.server.fivesenses.service.StatService;
 import fivesenses.server.fivesenses.service.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    private final StatService statService;
 
     @GetMapping("/{userId}")
     public ResponseEntity<Result<UserResponseDto>> getUserInfo(@PathVariable Long userId) {
