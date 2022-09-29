@@ -1,5 +1,6 @@
 package fivesenses.server.fivesenses.service;
 
+import fivesenses.server.fivesenses.dto.PostExistsByDateDto;
 import fivesenses.server.fivesenses.dto.PostRequestDto;
 import fivesenses.server.fivesenses.entity.Category;
 import fivesenses.server.fivesenses.entity.Post;
@@ -15,6 +16,7 @@ import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,7 +39,7 @@ public class PostService {
         return post.getId();
     }
 
-    public Post findPostById(Long postId){
+    public Post findPostById(Long postId) {
         return postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 포스트입니다."));
     }
 
@@ -46,6 +48,7 @@ public class PostService {
         Post post = findPostById(postId);
         postRepository.delete(post);
     }
+
     @Transactional
     public void updatePost(Long postId, PostRequestDto postRequestDto) {
         Post post = findPostById(postId);
@@ -55,15 +58,15 @@ public class PostService {
     public Slice<Post> findSliceByUser(Long userId, Category category, Integer star, LocalDate createdDate, Pageable pageable) {
         User user = userService.findById(userId);
 
-        if(category != null)
+        if (category != null)
             return postRepository.findSliceByUserAndCategory(user, category, pageable);
-        if(star != null)
+        if (star != null)
             return postRepository.findSliceByUserAndStar(user, star, pageable);
-        if(createdDate != null)
+        if (createdDate != null)
             return postRepository.findSliceByUserAndCreatedDateBetween(
                     user,
-                    LocalDateTime.of(createdDate, LocalTime.of(0,0,0)),
-                    LocalDateTime.of(createdDate, LocalTime.of(23,59,59)),
+                    LocalDateTime.of(createdDate, LocalTime.of(0, 0, 0)),
+                    LocalDateTime.of(createdDate, LocalTime.of(23, 59, 59)),
                     pageable
             );
 
@@ -76,16 +79,16 @@ public class PostService {
 //        if(category == null && star == null && createdDate == null)
 //            throw new IllegalStateException("검색 조건을 명시하지 않았습니다.");
 
-        if(category == null && star == null && createdDate == null)
+        if (category == null && star == null && createdDate == null)
             return postRepository.countByUser(user);
-        if(category != null)
+        if (category != null)
             return postRepository.countByUserAndCategory(user, category);
-        if(star != null)
+        if (star != null)
             return postRepository.countByUserAndStar(user, star);
-        if(createdDate != null)
+        if (createdDate != null)
             return postRepository.countByUserAndCreatedDateBetween(user,
-                    LocalDateTime.of(createdDate, LocalTime.of(0,0,0)),
-                    LocalDateTime.of(createdDate, LocalTime.of(23,59,59))
+                    LocalDateTime.of(createdDate, LocalTime.of(0, 0, 0)),
+                    LocalDateTime.of(createdDate, LocalTime.of(23, 59, 59))
             );
 
         return 0L;
@@ -101,4 +104,20 @@ public class PostService {
     }
 
 
+    public List<PostExistsByDateDto> findListByCreatedDateBetween(LocalDate startDate, LocalDate endDate) {
+        List<PostExistsByDateDto> postExistsByDateDtoList = new ArrayList<>();
+        User user = userService.findUserFromToken();
+
+        int cnt = 0;
+        while (!startDate.plusDays(cnt).isEqual(endDate.plusDays(1))) {
+            LocalDate cmpDate = startDate.plusDays(cnt);
+            Boolean isPresent = postRepository.existsByUserAndCreatedDateBetween(user,
+                    LocalDateTime.of(cmpDate.getYear(), cmpDate.getMonthValue(), cmpDate.getDayOfMonth(), 0, 0, 0),
+                    LocalDateTime.of(cmpDate.getYear(), cmpDate.getMonthValue(), cmpDate.getDayOfMonth(), 23, 59, 59));
+
+            postExistsByDateDtoList.add(new PostExistsByDateDto(cmpDate, isPresent));
+            cnt++;
+        }
+        return postExistsByDateDtoList;
+    }
 }

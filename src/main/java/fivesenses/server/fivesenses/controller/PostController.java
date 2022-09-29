@@ -17,7 +17,6 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -107,5 +106,13 @@ public class PostController {
     }
 
 
+    @GetMapping("/present-between")
+    public ResponseEntity<Result<List<PostExistsByDateDto>>> getPresentPostsBetween(
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate){
+        List<PostExistsByDateDto> listByCreatedDateBetween = postService.findListByCreatedDateBetween(startDate, endDate);
 
+        Result<List<PostExistsByDateDto>> result = new Result<>(new Meta(HttpStatus.OK.value()),  listByCreatedDateBetween);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }

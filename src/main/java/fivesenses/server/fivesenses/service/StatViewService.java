@@ -28,7 +28,7 @@ public class StatViewService {
         final List<Post> posts = postService.findListByUser(user);
 
         final int totalPost = posts.size();
-        final Map<LocalDate, List<Post>> postsOfMonth = getPostsOfMonth(posts);
+        final Map<LocalDate, List<Post>> postsOfMonth = getPostsOfPastMonths(posts, 12);
 
         final Map<Category, Integer> percentageOfCategory = getPercentageOfCategory(posts, totalPost);
         final List<MonthlyMostCategoryDto> monthlyMostCategoryDtos = getMonthlyMostCategoryDtos(postsOfMonth);
@@ -64,11 +64,60 @@ public class StatViewService {
         return monthlyMostCategoryDtos;
     }
 
-    private Map<LocalDate, List<Post>> getPostsOfMonth(List<Post> posts) {
+
+
+    //TODO: 아래 메소드랑 코드중복. 클래스 타입을 파라미터로 줘서 해결해보기
+    private List<CountByMonthDto> getCountByMonthDtos(Map<LocalDate, List<Post>> postsOfMonth) {
+        final List<CountByMonthDto> countByMonthDtos = new ArrayList<>();
+        for (Map.Entry<LocalDate, List<Post>> e : postsOfMonth.entrySet()) {
+            LocalDate localDate = e.getKey();
+            List<Post> postList = e.getValue();
+
+            countByMonthDtos.add(new CountByMonthDto(localDate, (long) postList.size()));
+        }
+
+        return countByMonthDtos;
+    }
+
+    private List<CountByDayDto> getCountByDayDtos(List<Post> posts) {
+        final Map<LocalDate, List<Post>> postsOfDay = getPostsOfPastDays(posts, 12);
+
+        final List<CountByDayDto> countByDayDtos = new ArrayList<>();
+        for (Map.Entry<LocalDate, List<Post>> e : postsOfDay.entrySet()) {
+            LocalDate localDate = e.getKey();
+            List<Post> postList = e.getValue();
+
+            countByDayDtos.add(new CountByDayDto(localDate, (long) postList.size()));
+        }
+
+        return countByDayDtos;
+
+    }
+
+    private Map<LocalDate, List<Post>> getPostsOfPastDays(List<Post> posts, final int DAYS) {
+        final LocalDate nowDate = LocalDate.now();
+
+        Map<LocalDate, List<Post>> postPerDay = new TreeMap<>();
+        for (int i = 0; i < DAYS; i++)
+            postPerDay.put(nowDate.minusDays(i), new ArrayList<>());
+
+        for (Post post : posts) {
+            LocalDate createdDate = post.getCreatedDate().toLocalDate();
+
+            if (!postPerDay.containsKey(createdDate))
+                continue;
+
+            postPerDay.get(createdDate).add(post);
+        }
+
+        return postPerDay;
+    }
+
+    private Map<LocalDate, List<Post>> getPostsOfPastMonths(List<Post> posts, final int MONTHS) {
         final LocalDate nowDate = LocalDate.now();
 
         Map<LocalDate, List<Post>> postPerMonth = new TreeMap<>();
-        for (int i = 0; i < 12; i++){
+        for (int i = 0; i < MONTHS; i++){
             LocalDate minusMonths = nowDate.minusMonths(i);
             postPerMonth.put(LocalDate.of(minusMonths.getYear(), minusMonths.getMonthValue(), 1), new ArrayList<>());
         }
@@ -85,53 +134,6 @@ public class StatViewService {
         }
 
         return postPerMonth;
-    }
-
-    //TODO: 아래 메소드랑 코드중복. 클래스 타입을 파라미터로 줘서 해결해보기
-    private List<CountByMonthDto> getCountByMonthDtos(Map<LocalDate, List<Post>> postsOfMonth) {
-        final List<CountByMonthDto> countByMonthDtos = new ArrayList<>();
-        for (Map.Entry<LocalDate, List<Post>> e : postsOfMonth.entrySet()) {
-            LocalDate localDate = e.getKey();
-            List<Post> postList = e.getValue();
-
-            countByMonthDtos.add(new CountByMonthDto(localDate, (long) postList.size()));
-        }
-
-        return countByMonthDtos;
-    }
-
-    private List<CountByDayDto> getCountByDayDtos(List<Post> posts) {
-        final Map<LocalDate, List<Post>> postsOfDay = getPostsOfDay(posts);
-
-        final List<CountByDayDto> countByDayDtos = new ArrayList<>();
-        for (Map.Entry<LocalDate, List<Post>> e : postsOfDay.entrySet()) {
-            LocalDate localDate = e.getKey();
-            List<Post> postList = e.getValue();
-
-            countByDayDtos.add(new CountByDayDto(localDate, (long) postList.size()));
-        }
-
-        return countByDayDtos;
-
-    }
-
-    private Map<LocalDate, List<Post>> getPostsOfDay(List<Post> posts) {
-        final LocalDate nowDate = LocalDate.now();
-
-        Map<LocalDate, List<Post>> postPerDay = new TreeMap<>();
-        for (int i = 0; i < 12; i++)
-            postPerDay.put(nowDate.minusDays(i), new ArrayList<>());
-
-        for (Post post : posts) {
-            LocalDate createdDate = post.getCreatedDate().toLocalDate();
-
-            if (!postPerDay.containsKey(createdDate))
-                continue;
-
-            postPerDay.get(createdDate).add(post);
-        }
-
-        return postPerDay;
     }
 
     private Map<Category, Integer> getPercentageOfCategory(List<Post> posts, int totalPost) {

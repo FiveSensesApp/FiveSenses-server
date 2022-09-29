@@ -38,4 +38,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Long countByUser(User user);
 
     List<Post> findListByUser(User user);
+
+    Boolean existsByUserAndCreatedDateBetween(User user, LocalDateTime start, LocalDateTime end);
 }
