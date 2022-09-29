@@ -17,6 +17,7 @@ public class CreateUserDto {
     private Boolean isAlarmOn;
     private String alarmDate;
     private String email;
+    private Boolean isMarketingAllowed;
 
     public User toEntityExceptId(){
         return User.builder()
@@ -25,6 +26,7 @@ public class CreateUserDto {
                 .isAlarmOn(isAlarmOn)
                 .alarmDate(alarmDate)
                 .email(email)
+                .isMarketingAllowed(isMarketingAllowed)
                 .build();
     }
 }

@@ -28,6 +28,7 @@ public class User extends BaseTimeEntity {
     private String badgeRepresent;
     private String email;
     private String emailValidCode;
+    private Boolean isMarketingAllowed;
 
 
     @Builder.Default
@@ -55,6 +56,8 @@ public class User extends BaseTimeEntity {
             alarmDate = dto.getAlarmDate();
         if(dto.getBadgeRepresent() != null)
             badgeRepresent = dto.getBadgeRepresent();
+        if(dto.getIsMarketingAllowed() != null)
+            isMarketingAllowed = dto.getIsMarketingAllowed();
 
     }
 

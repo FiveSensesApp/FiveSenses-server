@@ -16,4 +16,5 @@ public class UpdateUserDto {
     private Boolean isAlarmOn;
     private String badgeRepresent;
     private String alarmDate;
+    private Boolean isMarketingAllowed;
 }

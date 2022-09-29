@@ -21,6 +21,7 @@ public class UserResponseDto {
     private String badgeRepresent;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
+    private Boolean isMarketingAllowed;
 
     public UserResponseDto(User u){
         id = u.getId();
@@ -32,6 +33,7 @@ public class UserResponseDto {
         badgeRepresent = u.getBadgeRepresent();
         createdDate = u.getCreatedDate();
         modifiedDate = u.getModifiedDate();
+        isMarketingAllowed = u.getIsMarketingAllowed();
     }
 
 }
