@@ -92,4 +92,32 @@ public class BadgeController {
         Result<?> result = new Result<>(new Meta(HttpStatus.OK.value()));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @PostMapping("/badges/check-updates")
+    public ResponseEntity<Result<List<BadgeResponseDto>>> checkUpdates(){
+        List<BadgeResponseDto> insertedBadgesDto = userBadgeService.checkUpdates().stream()
+                .map(BadgeResponseDto::new)
+                .collect(Collectors.toList());
+
+        Result<List<BadgeResponseDto>> result = new Result<>(new Meta(HttpStatus.OK.value()), insertedBadgesDto);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping("/badges/check-share")
+    public ResponseEntity<Result<BadgeResponseDto>> checkShareBadge(){
+        Badge badge = userBadgeService.checkShareBadge();
+
+
+        Result<BadgeResponseDto> result = new Result<>(new Meta(HttpStatus.OK.value()), new BadgeResponseDto(badge));
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping("/badges/check-thanks")
+    public ResponseEntity<Result<BadgeResponseDto>> checkThanksBadge(){
+        Badge badge = userBadgeService.checkThanksBadge();
+
+        Result<BadgeResponseDto> result = new Result<>(new Meta(HttpStatus.OK.value()), new BadgeResponseDto(badge));
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }

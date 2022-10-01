@@ -94,11 +94,11 @@ public class StatViewService {
 
     }
 
-    private Map<LocalDate, List<Post>> getPostsOfPastDays(List<Post> posts, final int DAYS) {
+    private Map<LocalDate, List<Post>> getPostsOfPastDays(List<Post> posts, final int days) {
         final LocalDate nowDate = LocalDate.now();
 
         Map<LocalDate, List<Post>> postPerDay = new TreeMap<>();
-        for (int i = 0; i < DAYS; i++)
+        for (int i = 0; i < days; i++)
             postPerDay.put(nowDate.minusDays(i), new ArrayList<>());
 
         for (Post post : posts) {
@@ -113,11 +113,11 @@ public class StatViewService {
         return postPerDay;
     }
 
-    private Map<LocalDate, List<Post>> getPostsOfPastMonths(List<Post> posts, final int MONTHS) {
+    private Map<LocalDate, List<Post>> getPostsOfPastMonths(List<Post> posts, final int months) {
         final LocalDate nowDate = LocalDate.now();
 
         Map<LocalDate, List<Post>> postPerMonth = new TreeMap<>();
-        for (int i = 0; i < MONTHS; i++){
+        for (int i = 0; i < months; i++){
             LocalDate minusMonths = nowDate.minusMonths(i);
             postPerMonth.put(LocalDate.of(minusMonths.getYear(), minusMonths.getMonthValue(), 1), new ArrayList<>());
         }

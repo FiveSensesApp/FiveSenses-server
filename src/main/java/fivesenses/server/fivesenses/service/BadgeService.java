@@ -74,4 +74,5 @@ public class BadgeService {
         badge.update(b.getId(), b.getSeqNum(), b.getImgUrl(), b.getDescription(), b.getReqCondition(), b.getReqConditionShort(), b.getIsBefore(), b.getName());
     }
 
+
 }

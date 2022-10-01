@@ -17,6 +17,7 @@ public class BadgeResponseDto {
     private String reqCondition;
     private String reqConditionShort;
     private Boolean isBefore;
+    private String name;
 
     public BadgeResponseDto(Badge badge) {
         this.id = badge.getId();
@@ -26,5 +27,6 @@ public class BadgeResponseDto {
         this.reqCondition = badge.getReqCondition();
         this.reqConditionShort = badge.getReqConditionShort();
         this.isBefore = badge.getIsBefore();
+        this.name = badge.getName();
     }
 }
