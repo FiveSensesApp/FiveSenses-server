@@ -45,7 +45,7 @@ public class UserController {
 
     @PostMapping("/change-pw")
     public ResponseEntity<?> changePassword(@RequestBody ChangePwDto changePwDto) {
-        userService.changePassword(changePwDto);
+        userService.changePw(changePwDto);
 
         Result<?> result = new Result<>(new Meta(HttpStatus.OK.value()));
         return new ResponseEntity<>(result, HttpStatus.OK);

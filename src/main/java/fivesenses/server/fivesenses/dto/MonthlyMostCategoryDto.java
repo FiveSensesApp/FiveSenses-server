@@ -14,4 +14,5 @@ public class MonthlyMostCategoryDto {
 
     private LocalDate month;
     private Category category;
+    private Long cnt;
 }

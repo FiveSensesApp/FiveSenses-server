@@ -14,16 +14,13 @@ import fivesenses.server.fivesenses.jwt.SecurityUtil;
 import fivesenses.server.fivesenses.repository.UserTempRepository;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
-import static fivesenses.server.fivesenses.entity.QUser.user;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -90,11 +87,17 @@ public class UserService {
     }
 
     @Transactional
-    public void changePassword(ChangePwDto changePwDto){
-        User user = this.findUserFromToken();
+    public void changePw(ChangePwDto changePwDto){
+        if(changePwDto.getNewPw() == null || changePwDto.getOgPw() == null)
+            throw new IllegalStateException("비밀번호를 입력하였는지 확인해주세요.");
 
-        if(changePwDto.getPassword() != null)
-            user.changePw(passwordEncoder.encode(changePwDto.getPassword()));
+        User user = this.findUserFromToken();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        if (!passwordEncoder.matches(changePwDto.getOgPw(), user.getPassword()))
+            throw new IllegalStateException("기존 비밀번호가 일치하지 않습니다.");
+
+        user.changePw(passwordEncoder.encode(changePwDto.getNewPw()));
     }
 
     @Transactional

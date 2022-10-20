@@ -28,11 +28,13 @@ public class StatViewService {
         final List<Post> posts = postService.findListByUser(user);
 
         final int totalPost = posts.size();
-        final Map<LocalDate, List<Post>> postsOfMonth = getPostsOfPastMonths(posts, 12);
+        final Map<LocalDate, List<Post>> postsOfMonth = getPostsOfPastMonths(posts, 7);
+        final Map<LocalDate, List<Post>> postsOfDay = getPostsOfPastDays(posts, 7);
 
         final Map<Category, Integer> percentageOfCategory = getPercentageOfCategory(posts, totalPost);
-        final List<MonthlyMostCategoryDto> monthlyMostCategoryDtos = getMonthlyMostCategoryDtos(postsOfMonth);
-        final List<CountByDayDto> countByDayDtos = getCountByDayDtos(posts);
+        final List<MonthlyMostCategoryDto> monthlyMostCategoryDtos = getMonthlyMostCategoryDtos(getPostsOfPastMonths(posts, 12));
+
+        final List<CountByDayDto> countByDayDtos = getCountByDayDtos(postsOfDay);
         final List<CountByMonthDto> countByMonthDtos = getCountByMonthDtos(postsOfMonth);
 
         return StatResponseDto.builder()
@@ -44,31 +46,40 @@ public class StatViewService {
                 .build();
     }
 
-
-
     private List<MonthlyMostCategoryDto> getMonthlyMostCategoryDtos(Map<LocalDate, List<Post>> postsOfMonth) {
         final List<MonthlyMostCategoryDto> monthlyMostCategoryDtos = new ArrayList<>();
+
         for (Map.Entry<LocalDate, List<Post>> e : postsOfMonth.entrySet()) {
             LocalDate localDate = e.getKey();
             List<Post> postList = e.getValue();
 
             final Map<Category, Long> countByCategory = countByCategory(postList);
+            countByCategory.remove(Category.AMBIGUOUS);
+
             List<Category> categories = new ArrayList<>(Arrays.asList(Category.values()));
+            categories.remove(Category.AMBIGUOUS);
+
             Collections.sort(categories, (c1, c2) ->
                     Long.compare(countByCategory.get(c2), countByCategory.get(c1)
                     ));
 
-            monthlyMostCategoryDtos.add(new MonthlyMostCategoryDto(localDate, categories.get(0)));
+            long cnt = countByCategory.get(categories.get(0));
+
+//            //이달의 감각이 없을때
+//            if(cnt == 0){
+//                monthlyMostCategoryDtos.add(new MonthlyMostCategoryDto(localDate, categories.get(0), cnt));dd
+//                continue;
+//            }
+
+            monthlyMostCategoryDtos.add(new MonthlyMostCategoryDto(localDate, categories.get(0), cnt));
         }
 
         return monthlyMostCategoryDtos;
     }
 
-
-
-    //TODO: 아래 메소드랑 코드중복. 클래스 타입을 파라미터로 줘서 해결해보기
     private List<CountByMonthDto> getCountByMonthDtos(Map<LocalDate, List<Post>> postsOfMonth) {
         final List<CountByMonthDto> countByMonthDtos = new ArrayList<>();
+
         for (Map.Entry<LocalDate, List<Post>> e : postsOfMonth.entrySet()) {
             LocalDate localDate = e.getKey();
             List<Post> postList = e.getValue();
@@ -79,10 +90,9 @@ public class StatViewService {
         return countByMonthDtos;
     }
 
-    private List<CountByDayDto> getCountByDayDtos(List<Post> posts) {
-        final Map<LocalDate, List<Post>> postsOfDay = getPostsOfPastDays(posts, 12);
-
+    private List<CountByDayDto> getCountByDayDtos(Map<LocalDate, List<Post>> postsOfDay) {
         final List<CountByDayDto> countByDayDtos = new ArrayList<>();
+
         for (Map.Entry<LocalDate, List<Post>> e : postsOfDay.entrySet()) {
             LocalDate localDate = e.getKey();
             List<Post> postList = e.getValue();
@@ -91,7 +101,6 @@ public class StatViewService {
         }
 
         return countByDayDtos;
-
     }
 
     private Map<LocalDate, List<Post>> getPostsOfPastDays(List<Post> posts, final int days) {
