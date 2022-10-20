@@ -13,6 +13,6 @@ import java.time.LocalDate;
 public class MonthlyMostCategoryDto {
 
     private LocalDate month;
-    private Category category;
+    private String category;
     private Long cnt;
 }

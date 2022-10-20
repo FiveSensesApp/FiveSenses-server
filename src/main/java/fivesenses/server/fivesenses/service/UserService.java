@@ -92,7 +92,6 @@ public class UserService {
             throw new IllegalStateException("비밀번호를 입력하였는지 확인해주세요.");
 
         User user = this.findUserFromToken();
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         if (!passwordEncoder.matches(changePwDto.getOgPw(), user.getPassword()))
             throw new IllegalStateException("기존 비밀번호가 일치하지 않습니다.");

@@ -65,13 +65,13 @@ public class StatViewService {
 
             long cnt = countByCategory.get(categories.get(0));
 
-//            //이달의 감각이 없을때
-//            if(cnt == 0){
-//                monthlyMostCategoryDtos.add(new MonthlyMostCategoryDto(localDate, categories.get(0), cnt));dd
-//                continue;
-//            }
+            //이달의 감각이 없을때
+            if(cnt == 0){
+                monthlyMostCategoryDtos.add(new MonthlyMostCategoryDto(localDate, "NONE", cnt));
+                continue;
+            }
 
-            monthlyMostCategoryDtos.add(new MonthlyMostCategoryDto(localDate, categories.get(0), cnt));
+            monthlyMostCategoryDtos.add(new MonthlyMostCategoryDto(localDate, categories.get(0).toString(), cnt));
         }
 
         return monthlyMostCategoryDtos;
