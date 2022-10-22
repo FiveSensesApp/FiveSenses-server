@@ -32,6 +32,8 @@ public class StatViewService {
         final Map<LocalDate, List<Post>> postsOfDay = getPostsOfPastDays(posts, 7);
 
         final Map<Category, Integer> percentageOfCategory = getPercentageOfCategory(posts, totalPost);
+        final Map<Category, Long> cntOfCategory = getCntOfCategory(posts, totalPost);
+
         final List<MonthlyMostCategoryDto> monthlyMostCategoryDtos = getMonthlyMostCategoryDtos(getPostsOfPastMonths(posts, 12));
 
         final List<CountByDayDto> countByDayDtos = getCountByDayDtos(postsOfDay);
@@ -40,6 +42,7 @@ public class StatViewService {
         return StatResponseDto.builder()
                 .totalPost(totalPost)
                 .percentageOfCategory(percentageOfCategory)
+                .cntOfCategory(cntOfCategory)
                 .monthlyCategoryDtoList(monthlyMostCategoryDtos)
                 .countByDayDtoList(countByDayDtos)
                 .countByMonthDtoList(countByMonthDtos)
@@ -155,6 +158,20 @@ public class StatViewService {
 
             int percentage = (int) ((cnt / (double) totalPost) * 100);
             percentageOfCategory.put(category, percentage);
+        }
+
+        return percentageOfCategory;
+    }
+
+    private Map<Category, Long> getCntOfCategory(List<Post> posts, int totalPost) {
+        final Map<Category, Long> countByCategory = countByCategory(posts);
+
+        Map<Category, Long> percentageOfCategory = new HashMap<>();
+        for (Map.Entry<Category, Long> e : countByCategory.entrySet()) {
+            Category category = e.getKey();
+            Long cnt = e.getValue();
+
+            percentageOfCategory.put(category, cnt);
         }
 
         return percentageOfCategory;

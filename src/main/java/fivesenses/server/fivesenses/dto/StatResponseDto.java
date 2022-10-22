@@ -19,6 +19,8 @@ public class StatResponseDto {
 
     private int totalPost;
     private Map<Category, Integer> percentageOfCategory = new HashMap<>();
+    private Map<Category, Long> cntOfCategory = new HashMap<>();
+
     private List<MonthlyMostCategoryDto> monthlyCategoryDtoList = new ArrayList<>();
     private List<CountByDayDto> countByDayDtoList = new ArrayList<>();
     private List<CountByMonthDto> countByMonthDtoList = new ArrayList<>();
