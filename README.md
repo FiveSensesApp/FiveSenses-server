@@ -1,5 +1,5 @@
 <p align="center">
-  <div align="center"><img src="https://avatars.githubusercontent.com/u/88327986?s=200&v=4" width="20%"/></div>
+  <div align="center"><img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/1c802257-e5b6-4da8-ae24-c13703f3a13b/%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9_%E1%84%89%E1%85%B3%E1%84%8F%E1%85%A6%E1%84%8E%E1%85%B5-06_1.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221024%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221024T133050Z&X-Amz-Expires=86400&X-Amz-Signature=fdf453c84a06c742022f2d84643d4cc096d3c1156246d4fed00306f27643f576&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22%25E1%2584%2585%25E1%2585%25A9%25E1%2584%2580%25E1%2585%25A9%2520%25E1%2584%2589%25E1%2585%25B3%25E1%2584%258F%25E1%2585%25A6%25E1%2584%258E%25E1%2585%25B5-06%25201.jpg%22&x-id=GetObject" width="20%"/></div>
   <br>  
 </p>
 
@@ -77,8 +77,7 @@
 
 * 팀 노션 캡쳐
 <p align="center">
-  <div align="center"><img src="https://raw.githubusercontent.com/CYC0227/lab/main/images/%EB%85%B8%EC%85%98_%EC%BA%A1%EC%B3%90.png
-" width="70%"/></div>
+  <div align="center"><img src="https://raw.githubusercontent.com/CYC0227/lab/main/images/%EB%85%B8%EC%85%98_%EC%BA%A1%EC%B3%90.png" width="70%"/></div>
   <br>  
 </p>
 
