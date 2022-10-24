@@ -66,14 +66,14 @@
 
 ### 문제 해결 & 학습 블로깅
 
-
+* 추가 예정
 
 ### UI
 * 상단의 텀블벅 링크를 참조해 주세요
 
+
 ### 기타 자료 & TMI 모음
-* 사용가이드: https://coconut-cheese-fcb.notion.site/9ef0cda163df45c0b81f100b5a22bc95
-* 린캔버스: https://coconut-cheese-fcb.notion.site/e1eb8b3f053a40008a9cc7160a26095d
+* 사용가이드: https://5gaam.notion.site/5gaam/5gaam-3b45d6083ad044ab869f0df6378933de
 
 * 팀 노션 캡쳐
 <p align="center">
