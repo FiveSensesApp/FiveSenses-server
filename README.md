@@ -75,6 +75,14 @@
 ### 기타 자료 & TMI 모음
 * 사용가이드: https://5gaam.notion.site/5gaam/5gaam-3b45d6083ad044ab869f0df6378933de
 
+* 광고 화면 캡쳐:
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/CYC0227/lab/main/images/KakaoTalk_20221024_224558715.jpg"  width="270" height="480" />
+<img src="https://raw.githubusercontent.com/CYC0227/lab/main/images/KakaoTalk_20221024_224627929.jpg" width="270" height="480" /> 
+</div>
+<br>
+
 * 팀 노션 캡쳐
 <p align="center">
   <div align="center"><img src="https://raw.githubusercontent.com/CYC0227/lab/main/images/%EB%85%B8%EC%85%98_%EC%BA%A1%EC%B3%90.png" width="70%"/></div>
