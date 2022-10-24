@@ -78,8 +78,8 @@
 * 광고 화면 캡쳐:
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/CYC0227/lab/main/images/KakaoTalk_20221024_224558715.jpg"  width="270" height="480" />
-<img src="https://raw.githubusercontent.com/CYC0227/lab/main/images/KakaoTalk_20221024_224627929.jpg" width="270" height="480" /> 
+<img src="https://raw.githubusercontent.com/CYC0227/lab/main/images/KakaoTalk_20221024_224558715.jpg"   />
+<img src="https://raw.githubusercontent.com/CYC0227/lab/main/images/KakaoTalk_20221024_224627929.jpg"  /> 
 </div>
 <br>
 
