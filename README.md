@@ -66,7 +66,9 @@
 
 ### 문제 해결 & 학습 블로깅
 
-* 추가 예정
+* 예외처리 - unchecked, checked 예외<br>https://choibulldog.tistory.com/71
+* 예외처리 - 표준 예외 vs 사용자 정의 예외<br>https://choibulldog.tistory.com/70
+
 
 ### UI
 * 상단의 텀블벅 링크를 참조해 주세요
