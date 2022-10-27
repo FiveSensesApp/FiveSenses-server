@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Data
 @Builder
@@ -28,7 +29,7 @@ public class PostResponseDto {
         this.category = p.getCategory();
         this.keyword = p.getKeyword();
         this.star = p.getStar();
-        this.content = p.getContent();
+        this.content = Objects.toString(p.getContent(), "");
         this.createdDate = p.getCreatedDate();
         this.modifiedDate = p.getModifiedDate();
     }
