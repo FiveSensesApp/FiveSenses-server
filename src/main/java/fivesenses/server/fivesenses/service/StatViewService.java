@@ -31,7 +31,7 @@ public class StatViewService {
         final Map<LocalDate, List<Post>> postsOfMonth = getPostsOfPastMonths(posts, 7);
         final Map<LocalDate, List<Post>> postsOfDay = getPostsOfPastDays(posts, 7);
 
-        final Map<Category, Integer> percentageOfCategory = getPercentageOfCategory(posts, totalPost);
+        final Map<Category, Double> percentageOfCategory = getPercentageOfCategory(posts, totalPost);
         final Map<Category, Long> cntOfCategory = getCntOfCategory(posts, totalPost);
 
         final List<MonthlyMostCategoryDto> monthlyMostCategoryDtos = getMonthlyMostCategoryDtos(getPostsOfPastMonths(posts, 12));
@@ -69,7 +69,7 @@ public class StatViewService {
             long cnt = countByCategory.get(categories.get(0));
 
             //이달의 감각이 없을때
-            if(cnt == 0){
+            if (cnt == 0) {
                 monthlyMostCategoryDtos.add(new MonthlyMostCategoryDto(localDate, "NONE", cnt));
                 continue;
             }
@@ -129,7 +129,7 @@ public class StatViewService {
         final LocalDate nowDate = LocalDate.now();
 
         Map<LocalDate, List<Post>> postPerMonth = new TreeMap<>();
-        for (int i = 0; i < months; i++){
+        for (int i = 0; i < months; i++) {
             LocalDate minusMonths = nowDate.minusMonths(i);
             postPerMonth.put(LocalDate.of(minusMonths.getYear(), minusMonths.getMonthValue(), 1), new ArrayList<>());
         }
@@ -137,7 +137,7 @@ public class StatViewService {
         for (Post post : posts) {
             LocalDate createdDate = post.getCreatedDate().toLocalDate();
             LocalDate createdYearAndMonth =
-                    LocalDate.of(createdDate.getYear(),createdDate.getMonthValue(), 1);
+                    LocalDate.of(createdDate.getYear(), createdDate.getMonthValue(), 1);
 
             if (!postPerMonth.containsKey(createdYearAndMonth))
                 continue;
@@ -148,15 +148,17 @@ public class StatViewService {
         return postPerMonth;
     }
 
-    private Map<Category, Integer> getPercentageOfCategory(List<Post> posts, int totalPost) {
+    private Map<Category, Double> getPercentageOfCategory(List<Post> posts, int totalPost) {
         final Map<Category, Long> countByCategory = countByCategory(posts);
 
-        Map<Category, Integer> percentageOfCategory = new HashMap<>();
+        Map<Category, Double> percentageOfCategory = new HashMap<>();
         for (Map.Entry<Category, Long> e : countByCategory.entrySet()) {
             Category category = e.getKey();
             Long cnt = e.getValue();
 
-            int percentage = (int) ((cnt / (double) totalPost) * 100);
+            double percentage = (cnt / (double) totalPost) * 100;
+            percentage = Math.floor(percentage * 10) / 10.0;
+
             percentageOfCategory.put(category, percentage);
         }
 
