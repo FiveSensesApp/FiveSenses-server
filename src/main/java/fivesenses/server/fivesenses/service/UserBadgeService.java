@@ -216,7 +216,7 @@ public class UserBadgeService {
         User user = userService.findUserFromToken();
         Badge badge = badgeService.findById("2_공유하는 기쁨.svg");
 
-        boolean isPresent = userBadgeRepository.existsByBadge(badge);
+        boolean isPresent = userBadgeRepository.existsByBadgeAndUser(badge, user);
         if(isPresent)
             throw new IllegalStateException("[공유하는 기쁨] 배지가 존재합니다.");
 
@@ -229,7 +229,7 @@ public class UserBadgeService {
         User user = userService.findUserFromToken();
         Badge badge = badgeService.findById("3_개발진의 감사.svg");
 
-        boolean isPresent = userBadgeRepository.existsByBadge(badge);
+        boolean isPresent = userBadgeRepository.existsByBadgeAndUser(badge, user);
         if(isPresent)
             throw new IllegalStateException("[개발진의 감사] 배지가 존재합니다.");
 
