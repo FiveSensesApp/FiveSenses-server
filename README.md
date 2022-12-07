@@ -87,5 +87,5 @@
 * 칸반보드 캡쳐
 <p align="center">
   <img src="https://raw.githubusercontent.com/CYC0227/lab/main/images/kanban.png" width="70%"/>
-  <br>  
+  <br>      
 </p>
