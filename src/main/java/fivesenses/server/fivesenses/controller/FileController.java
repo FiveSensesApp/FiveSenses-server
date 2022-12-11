@@ -27,7 +27,7 @@ public class FileController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> delete(@RequestParam String imageLocation){
+    public ResponseEntity<?> delete(@RequestParam String imageLocation) {
         String[] s = imageLocation.split("/");
         String fileName = s[s.length - 1];
 

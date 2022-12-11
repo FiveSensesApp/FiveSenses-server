@@ -37,13 +37,13 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
 
-    public User findUserFromToken(){
+    public User findUserFromToken() {
         Long currentUserId = SecurityUtil.getCurrentUserId();
         return findById(currentUserId);
     }
 
     @Transactional
-    public Long createUser(CreateUserDto createUserDto){
+    public Long createUser(CreateUserDto createUserDto) {
         User user = createUserDto.toEntityExceptId();
         user.changePw(passwordEncoder.encode(user.getPassword()));
 
@@ -63,32 +63,34 @@ public class UserService {
     }
 
     public void validateDuplicateUser(String email) {
-        if(email == null)
+        if (email == null)
             return;
 
-        if(userRepository.existsByEmail(email))
+        if (userRepository.existsByEmail(email))
             throw new IllegalStateException("이미 사용중인 이메일입니다.");
     }
 
-    public List<User> findUsers(){ return userRepository.findAll();}
+    public List<User> findUsers() {
+        return userRepository.findAll();
+    }
 
-    public User findById(Long userId){
+    public User findById(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
     }
 
-    public User findUserByEmail(String email){
+    public User findUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
     }
 
     @Transactional
-    public void updateUser(UpdateUserDto updateUserDto){
+    public void updateUser(UpdateUserDto updateUserDto) {
         User user = findById(updateUserDto.getUserId());
         user.update(updateUserDto);
     }
 
     @Transactional
-    public void changePw(ChangePwDto changePwDto){
-        if(changePwDto.getNewPw() == null || changePwDto.getOgPw() == null)
+    public void changePw(ChangePwDto changePwDto) {
+        if (changePwDto.getNewPw() == null || changePwDto.getOgPw() == null)
             throw new IllegalStateException("비밀번호를 입력하였는지 확인해주세요.");
 
         User user = this.findUserFromToken();
@@ -100,7 +102,7 @@ public class UserService {
     }
 
     @Transactional
-    public void lostPassword(String userEmail){
+    public void lostPassword(String userEmail) {
         //generate random password
         String randomPw = generateRandomPw();
 
@@ -113,24 +115,24 @@ public class UserService {
     }
 
     @Transactional
-    public void validateEmail(String email){
+    public void validateEmail(String email) {
         UserTemp userTemp = userTempRepository.findByEmail(email);
 
-        if(userTemp == null)
+        if (userTemp == null)
             userTemp = userTempRepository.save(new UserTemp(email));
 
         String randomValidCode = generateRandomValidCode();
         userTemp.changeEmailValidCode(randomValidCode);
 
         //send mail
-        mailService.validateEmail(email,randomValidCode);
+        mailService.validateEmail(email, randomValidCode);
     }
 
     @Transactional
-    public void validateEmailSendCode(String email, String emailValidCode){
+    public void validateEmailSendCode(String email, String emailValidCode) {
 
         UserTemp userTemp = userTempRepository.findByEmail(email);
-        if(userTemp == null)
+        if (userTemp == null)
             throw new EntityNotFoundException("존재하지 않는 임시 인증 정보입니다.");
 
         if (!userTemp.getEmailValidCode().equals(emailValidCode))
@@ -138,7 +140,6 @@ public class UserService {
 
         userTempRepository.delete(userTemp);
     }
-
 
 
     private String generateRandomPw() {

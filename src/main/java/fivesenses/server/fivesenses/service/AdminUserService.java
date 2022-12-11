@@ -24,7 +24,7 @@ public class AdminUserService {
     private final UserBadgeRepository userBadgeRepository;
 
     @Transactional
-    public void deleteUser(Long userId){
+    public void deleteUser(Long userId) {
         User user = userService.findById(userId);
 
         userBadgeRepository.deleteAllByUser(user);

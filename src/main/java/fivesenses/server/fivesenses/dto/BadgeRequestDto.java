@@ -19,7 +19,7 @@ public class BadgeRequestDto {
     private Boolean isBefore;
     private String name;
 
-    public Badge toEntityExceptId(){
+    public Badge toEntityExceptId() {
         return Badge.builder()
                 .seqNum(seqNum)
                 .imgUrl(imgUrl)

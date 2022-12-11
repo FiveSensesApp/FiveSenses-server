@@ -19,7 +19,7 @@ public class CreateUserDto {
     private String email;
     private Boolean isMarketingAllowed;
 
-    public User toEntityExceptId(){
+    public User toEntityExceptId() {
         return User.builder()
                 .password(password)
                 .nickname(nickname)

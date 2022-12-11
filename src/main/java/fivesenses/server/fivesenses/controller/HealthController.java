@@ -13,7 +13,7 @@ import springfox.documentation.annotations.ApiIgnore;
 public class HealthController {
 
     @GetMapping
-    public ResponseEntity<?> health(){
+    public ResponseEntity<?> health() {
         return ResponseEntity.ok().build();
     }
 }

@@ -29,18 +29,18 @@ public class Post extends BaseTimeEntity {
     private Integer star;
     private String content;
 
-    public void addUser(User user){
+    public void addUser(User user) {
         this.user = user;
     }
 
     public void update(PostRequestDto pr) {
-        if(pr.getCategory() != null)
+        if (pr.getCategory() != null)
             category = pr.getCategory();
-        if(pr.getKeyword() != null)
+        if (pr.getKeyword() != null)
             keyword = pr.getKeyword();
-        if(pr.getStar() != null)
+        if (pr.getStar() != null)
             star = pr.getStar();
-        if(pr.getContent() != null)
+        if (pr.getContent() != null)
             content = pr.getContent();
     }
 

@@ -25,7 +25,7 @@ public class UserBadgeService {
         return userBadgeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 UserBadge입니다."));
     }
 
-    public List<UserBadge> findListByUserId(Long userId){
+    public List<UserBadge> findListByUserId(Long userId) {
         return userBadgeRepository.findListByUserId(userId);
     }
 
@@ -42,7 +42,7 @@ public class UserBadgeService {
                 .sorted(Comparator.comparingInt(Badge::getSeqNum))
                 .collect(Collectors.toList());
 
-        for(Badge b : badgesPresent)
+        for (Badge b : badgesPresent)
             allBadges.set(b.getSeqNum() - 1, b);
 
         return allBadges;
@@ -90,122 +90,122 @@ public class UserBadgeService {
 
         List<Post> posts = postService.findListByUser(user);
         int postsSize = posts.size();
-        if(!presentBadges.contains("첫 감각의 설렘")
-                && postsSize > 0){
+        if (!presentBadges.contains("첫 감각의 설렘")
+                && postsSize > 0) {
             Badge badge = badgeService.findById("1_첫 감각의 설렘.svg");
             insertedBadges.add(badge);
-            createUserBadge(user,badge);
+            createUserBadge(user, badge);
         }
 
-        if(!presentBadges.contains("초급 감각자")
-                && postsSize >= 10){
+        if (!presentBadges.contains("초급 감각자")
+                && postsSize >= 10) {
             Badge badge = badgeService.findById("4_초급 감각자.svg");
             insertedBadges.add(badge);
-            createUserBadge(user,badge);
+            createUserBadge(user, badge);
         }
 
-        if(!presentBadges.contains("중급 감각자")
-                && postsSize >= 50){
+        if (!presentBadges.contains("중급 감각자")
+                && postsSize >= 50) {
             Badge badge = badgeService.findById("5_중급 감각자.svg");
             insertedBadges.add(badge);
-            createUserBadge(user,badge);
+            createUserBadge(user, badge);
         }
 
-        if(!presentBadges.contains("고급 감각자")
-                && postsSize >= 100){
+        if (!presentBadges.contains("고급 감각자")
+                && postsSize >= 100) {
             Badge badge = badgeService.findById("6_고급 감각자.svg");
             insertedBadges.add(badge);
-            createUserBadge(user,badge);
+            createUserBadge(user, badge);
         }
 
         long withMemoCnt = posts.stream()
                 .filter(p -> p.getContent() != null)
                 .count();
-        if(!presentBadges.contains("투머치토커")
-                && withMemoCnt >= 50L){
+        if (!presentBadges.contains("투머치토커")
+                && withMemoCnt >= 50L) {
             Badge badge = badgeService.findById("8_투머치토커.svg");
             insertedBadges.add(badge);
-            createUserBadge(user,badge);
+            createUserBadge(user, badge);
         }
 
         long noMemoCnt = postsSize - withMemoCnt;
-        if(!presentBadges.contains("미니멀리스트")
-                && noMemoCnt >= 50L){
+        if (!presentBadges.contains("미니멀리스트")
+                && noMemoCnt >= 50L) {
             Badge badge = badgeService.findById("7_미니멀리스트.svg");
             insertedBadges.add(badge);
-            createUserBadge(user,badge);
+            createUserBadge(user, badge);
         }
 
         long ambiguousCnt = posts.stream()
                 .filter(p -> p.getCategory() == Category.AMBIGUOUS)
                 .count();
-        if(!presentBadges.contains("물음표쟁이")
-                && ambiguousCnt >= 30L){
+        if (!presentBadges.contains("물음표쟁이")
+                && ambiguousCnt >= 30L) {
             Badge badge = badgeService.findById("9_물음표쟁이.svg");
             insertedBadges.add(badge);
-            createUserBadge(user,badge);
+            createUserBadge(user, badge);
         }
 
         long sightCnt = posts.stream()
                 .filter(p -> p.getCategory() == Category.SIGHT)
                 .count();
-        if(!presentBadges.contains("프로시각러")
-                && sightCnt >= 30L){
+        if (!presentBadges.contains("프로시각러")
+                && sightCnt >= 30L) {
             Badge badge = badgeService.findById("10_프로시각러.svg");
             insertedBadges.add(badge);
-            createUserBadge(user,badge);
+            createUserBadge(user, badge);
         }
 
         long hearingCnt = posts.stream()
                 .filter(p -> p.getCategory() == Category.HEARING)
                 .count();
-        if(!presentBadges.contains("프로청각러")
-                && hearingCnt >= 30L){
+        if (!presentBadges.contains("프로청각러")
+                && hearingCnt >= 30L) {
             Badge badge = badgeService.findById("11_프로청각러.svg");
             insertedBadges.add(badge);
-            createUserBadge(user,badge);
+            createUserBadge(user, badge);
         }
 
         long smellCnt = posts.stream()
                 .filter(p -> p.getCategory() == Category.SMELL)
                 .count();
-        if(!presentBadges.contains("프로후각러")
-                && smellCnt >= 30L){
+        if (!presentBadges.contains("프로후각러")
+                && smellCnt >= 30L) {
             Badge badge = badgeService.findById("12_프로후각러.svg");
             insertedBadges.add(badge);
-            createUserBadge(user,badge);
+            createUserBadge(user, badge);
         }
 
         long tasteCnt = posts.stream()
                 .filter(p -> p.getCategory() == Category.TASTE)
                 .count();
-        if(!presentBadges.contains("프로미각러")
-                && tasteCnt >= 30L){
+        if (!presentBadges.contains("프로미각러")
+                && tasteCnt >= 30L) {
             Badge badge = badgeService.findById("13_프로미각러.svg");
             insertedBadges.add(badge);
-            createUserBadge(user,badge);
+            createUserBadge(user, badge);
         }
 
         long touchCnt = posts.stream()
                 .filter(p -> p.getCategory() == Category.TOUCH)
                 .count();
-        if(!presentBadges.contains("프로촉각러")
-                && touchCnt >= 30L){
+        if (!presentBadges.contains("프로촉각러")
+                && touchCnt >= 30L) {
             Badge badge = badgeService.findById("14_프로촉각러.svg");
             insertedBadges.add(badge);
-            createUserBadge(user,badge);
+            createUserBadge(user, badge);
         }
 
-        if(!presentBadges.contains("프로감각러")
+        if (!presentBadges.contains("프로감각러")
                 && ambiguousCnt >= 30L
                 && sightCnt >= 30L
                 && hearingCnt >= 30L
                 && smellCnt >= 30L
                 && tasteCnt >= 30L
-                && touchCnt >= 30L){
+                && touchCnt >= 30L) {
             Badge badge = badgeService.findById("15_프로감각러.svg");
             insertedBadges.add(badge);
-            createUserBadge(user,badge);
+            createUserBadge(user, badge);
         }
 
         return insertedBadges;
@@ -217,7 +217,7 @@ public class UserBadgeService {
         Badge badge = badgeService.findById("2_공유하는 기쁨.svg");
 
         boolean isPresent = userBadgeRepository.existsByBadgeAndUser(badge, user);
-        if(isPresent)
+        if (isPresent)
             throw new IllegalStateException("[공유하는 기쁨] 배지가 존재합니다.");
 
         createUserBadge(user, badge);
@@ -230,7 +230,7 @@ public class UserBadgeService {
         Badge badge = badgeService.findById("3_개발진의 감사.svg");
 
         boolean isPresent = userBadgeRepository.existsByBadgeAndUser(badge, user);
-        if(isPresent)
+        if (isPresent)
             throw new IllegalStateException("[개발진의 감사] 배지가 존재합니다.");
 
         createUserBadge(user, badge);

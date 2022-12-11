@@ -23,27 +23,26 @@ public class BadgeService {
     private final S3Service s3Service;
     private final BadgeRepository badgeRepository;
 
-    public List<Badge> findAll(){
+    public List<Badge> findAll() {
         return badgeRepository.findAll();
     }
-    public Badge findById(String id){
+
+    public Badge findById(String id) {
         return badgeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 배지입니다."));
     }
 
     @Transactional
-    public void createBadge(MultipartFile[] files, String dirName){
+    public void createBadge(MultipartFile[] files, String dirName) {
         Boolean isBefore;
-        if(dirName.equals("before")) {
+        if (dirName.equals("before")) {
             isBefore = true;
             dirName = DIR_BEFORE;
-        }
-        else if(dirName.equals("after")) {
+        } else if (dirName.equals("after")) {
             isBefore = false;
             dirName = DIR_AFTER;
-        }
-        else throw new IllegalStateException("잘못된 dirName.");
+        } else throw new IllegalStateException("잘못된 dirName.");
 
-        for (MultipartFile m : files){
+        for (MultipartFile m : files) {
             String imgUrl = s3Service.upload(m, dirName);
 
             String[] split = Objects.requireNonNull(m.getOriginalFilename()).split("_");
@@ -62,13 +61,13 @@ public class BadgeService {
 
 
     @Transactional
-    public void deleteBadge(String id){
+    public void deleteBadge(String id) {
         Badge badge = findById(id);
         badgeRepository.delete(badge);
     }
 
     @Transactional
-    public void updateBadge(BadgeRequestDto b){
+    public void updateBadge(BadgeRequestDto b) {
         Badge badge = findById(b.getId());
 
         badge.update(b.getId(), b.getSeqNum(), b.getImgUrl(), b.getDescription(), b.getReqCondition(), b.getReqConditionShort(), b.getIsBefore(), b.getName());

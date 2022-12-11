@@ -42,21 +42,22 @@ public class User extends BaseTimeEntity {
     public void changePw(String password) {
         this.password = password;
     }
+
     public void changeEmailValidCode(String emailValidCode) {
         this.emailValidCode = emailValidCode;
     }
 
 
     public void update(UpdateUserDto dto) {
-        if(dto.getNickname() != null)
+        if (dto.getNickname() != null)
             nickname = dto.getNickname();
-        if(dto.getIsAlarmOn() != null)
+        if (dto.getIsAlarmOn() != null)
             isAlarmOn = dto.getIsAlarmOn();
-        if(dto.getAlarmDate() != null)
+        if (dto.getAlarmDate() != null)
             alarmDate = dto.getAlarmDate();
-        if(dto.getBadgeRepresent() != null)
+        if (dto.getBadgeRepresent() != null)
             badgeRepresent = dto.getBadgeRepresent();
-        if(dto.getIsMarketingAllowed() != null)
+        if (dto.getIsMarketingAllowed() != null)
             isMarketingAllowed = dto.getIsMarketingAllowed();
 
     }

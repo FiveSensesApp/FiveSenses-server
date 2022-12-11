@@ -14,7 +14,7 @@ public class Result<T> {
     private Meta meta;
     private T data;
 
-    public Result(Meta meta){
+    public Result(Meta meta) {
         this.meta = meta;
     }
 }

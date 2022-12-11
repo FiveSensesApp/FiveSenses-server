@@ -27,7 +27,7 @@ public class StatController {
 
     //============= Badge =============//
     @GetMapping("/stats")
-    public ResponseEntity<Result<StatResponseDto>> getStatByUserId(@RequestParam Long userId){
+    public ResponseEntity<Result<StatResponseDto>> getStatByUserId(@RequestParam Long userId) {
         StatResponseDto statResponseDto = statViewService.getStatViewByUser(userId);
 
         Result<StatResponseDto> result = new Result<>(new Meta(HttpStatus.OK.value()), statResponseDto);

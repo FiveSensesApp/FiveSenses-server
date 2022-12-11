@@ -22,6 +22,7 @@ public class ExControllerAdvice {
 
         return new Result<>(new Meta(e.getMessage(), HttpStatus.NOT_FOUND.value()));
     }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalStateException.class)
     public Result<Object> IllegalStateExHandler(IllegalStateException e) {

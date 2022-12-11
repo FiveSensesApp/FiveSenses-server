@@ -20,19 +20,19 @@ import java.util.Map;
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-   @Override
-   public void commence(HttpServletRequest request,
-                        HttpServletResponse response,
-                        AuthenticationException authException) throws IOException {
-      // 유효한 자격증명을 제공하지 않고 접근하려 할때 401
+    @Override
+    public void commence(HttpServletRequest request,
+                         HttpServletResponse response,
+                         AuthenticationException authException) throws IOException {
+        // 유효한 자격증명을 제공하지 않고 접근하려 할때 401
 
-      response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-      response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
-      try (OutputStream os = response.getOutputStream()) {
-         ObjectMapper objectMapper = new ObjectMapper();
-         objectMapper.writeValue(os, new Result<>(new Meta(authException.getMessage(), HttpStatus.UNAUTHORIZED.value())));
-         os.flush();
-      }
-   }
+        try (OutputStream os = response.getOutputStream()) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.writeValue(os, new Result<>(new Meta(authException.getMessage(), HttpStatus.UNAUTHORIZED.value())));
+            os.flush();
+        }
+    }
 }

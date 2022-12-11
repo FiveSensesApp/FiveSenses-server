@@ -18,7 +18,7 @@ public class UserBadgeResponseDto {
     private LocalDateTime createDate;
     private LocalDateTime modifiedDate;
 
-    public UserBadgeResponseDto(UserBadge ub){
+    public UserBadgeResponseDto(UserBadge ub) {
         this.userBadgeId = ub.getId();
         this.userId = ub.getUser().getId();
         this.badgeId = ub.getBadge().getId();

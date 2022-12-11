@@ -23,7 +23,7 @@ public class UserResponseDto {
     private LocalDateTime modifiedDate;
     private Boolean isMarketingAllowed;
 
-    public UserResponseDto(User u){
+    public UserResponseDto(User u) {
         id = u.getId();
         nickname = u.getNickname();
         isAlarmOn = u.getIsAlarmOn();

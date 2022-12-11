@@ -57,7 +57,7 @@ public class MailService {
             helper.addInline("mail_3", convertInputStreamToFile(
                     new ClassPathResource("static/images/mail_3.png").getInputStream()));
 
-        } catch (MessagingException | IOException e ) {
+        } catch (MessagingException | IOException e) {
             e.printStackTrace();
             throw new IllegalStateException("메세지 전송중 예외 발생 : lostpw");
         }
@@ -99,7 +99,7 @@ public class MailService {
 //            FileSystemResource mail_3 = new FileSystemResource(convertInputStreamToFile(inputStream2));
 //            helper.addInline("mail_3", mail_3);
 
-        } catch (MessagingException | IOException e ) {
+        } catch (MessagingException | IOException e) {
             e.printStackTrace();
             throw new IllegalStateException("메세지 전송중 예외 발생 : validateEmail");
         }

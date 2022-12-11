@@ -20,11 +20,11 @@ public class UserTemp {
     private String emailValidCode;
 
 
-    public UserTemp(String email){
+    public UserTemp(String email) {
         this.email = email;
     }
 
-    public void changeEmailValidCode(String emailValidCode){
+    public void changeEmailValidCode(String emailValidCode) {
         this.emailValidCode = emailValidCode;
     }
 

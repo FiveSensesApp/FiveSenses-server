@@ -15,15 +15,15 @@ import javax.persistence.Id;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Authority {
 
-   @Id
-   @Column(name = "authority_name")
-   private String authorityName;
+    @Id
+    @Column(name = "authority_name")
+    private String authorityName;
 
 
-   @Override
-   public String toString() {
-      return "Authority{" +
-              "authorityName='" + authorityName + '\'' +
-              '}';
-   }
+    @Override
+    public String toString() {
+        return "Authority{" +
+                "authorityName='" + authorityName + '\'' +
+                '}';
+    }
 }

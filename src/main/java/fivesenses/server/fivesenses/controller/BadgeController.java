@@ -27,7 +27,7 @@ public class BadgeController {
 
     //============= Badge =============//
     @GetMapping("/badges/{id}")
-    public ResponseEntity<Result<BadgeResponseDto>> getBadge(@PathVariable String id){
+    public ResponseEntity<Result<BadgeResponseDto>> getBadge(@PathVariable String id) {
         Badge badge = badgeService.findById(id);
 
         Result<BadgeResponseDto> result = new Result<>(new Meta(HttpStatus.OK.value()), new BadgeResponseDto(badge));
@@ -35,7 +35,7 @@ public class BadgeController {
     }
 
     @PostMapping("/badges")
-    public ResponseEntity<?> createBadges(@RequestParam("data") MultipartFile[] files, @RequestParam String dirName){
+    public ResponseEntity<?> createBadges(@RequestParam("data") MultipartFile[] files, @RequestParam String dirName) {
         badgeService.createBadge(files, dirName);
 
         Result<?> result = new Result<>(new Meta(HttpStatus.OK.value()));
@@ -43,7 +43,7 @@ public class BadgeController {
     }
 
     @PatchMapping("/badges/{id}")
-    public ResponseEntity<?> updateBadge(@RequestBody BadgeRequestDto badgeRequestDto){
+    public ResponseEntity<?> updateBadge(@RequestBody BadgeRequestDto badgeRequestDto) {
         badgeService.updateBadge(badgeRequestDto);
 
         Result<?> result = new Result<>(new Meta(HttpStatus.OK.value()));
@@ -60,7 +60,7 @@ public class BadgeController {
 
     //============= UserBadge =============//
     @GetMapping("users/{userId}/badges")
-    public ResponseEntity<Result<List<BadgeResponseDto>>> getUserBadgesByUser(@PathVariable Long userId){
+    public ResponseEntity<Result<List<BadgeResponseDto>>> getUserBadgesByUser(@PathVariable Long userId) {
         List<BadgeResponseDto> dtos = userBadgeService.findBadgeListByUserId(userId).stream()
                 .map(BadgeResponseDto::new)
                 .collect(Collectors.toList());
@@ -70,7 +70,7 @@ public class BadgeController {
     }
 
     @GetMapping("users/{userId}/badges/{id}")
-    public ResponseEntity<Result<UserBadgeResponseDto>> getUserBadge(@PathVariable Long userId, @PathVariable Long id){
+    public ResponseEntity<Result<UserBadgeResponseDto>> getUserBadge(@PathVariable Long userId, @PathVariable Long id) {
         UserBadge userBadge = userBadgeService.findById(id);
 
         Result<UserBadgeResponseDto> result = new Result<>(new Meta(HttpStatus.OK.value()), new UserBadgeResponseDto(userBadge));
@@ -78,7 +78,7 @@ public class BadgeController {
     }
 
     @PostMapping("users/{userId}/badges")
-    public ResponseEntity<?> createUserBadge(@RequestBody UserBadgeRequestDto dto){
+    public ResponseEntity<?> createUserBadge(@RequestBody UserBadgeRequestDto dto) {
         userBadgeService.createUserBadge(dto);
 
         Result<?> result = new Result<>(new Meta(HttpStatus.OK.value()));
@@ -94,7 +94,7 @@ public class BadgeController {
     }
 
     @PostMapping("/badges/check-updates")
-    public ResponseEntity<Result<List<BadgeResponseDto>>> checkUpdates(){
+    public ResponseEntity<Result<List<BadgeResponseDto>>> checkUpdates() {
         List<BadgeResponseDto> insertedBadgesDto = userBadgeService.checkUpdates().stream()
                 .map(BadgeResponseDto::new)
                 .collect(Collectors.toList());
@@ -104,7 +104,7 @@ public class BadgeController {
     }
 
     @PostMapping("/badges/check-share")
-    public ResponseEntity<Result<BadgeResponseDto>> checkShareBadge(){
+    public ResponseEntity<Result<BadgeResponseDto>> checkShareBadge() {
         Badge badge = userBadgeService.checkShareBadge();
 
 
@@ -113,7 +113,7 @@ public class BadgeController {
     }
 
     @PostMapping("/badges/check-thanks")
-    public ResponseEntity<Result<BadgeResponseDto>> checkThanksBadge(){
+    public ResponseEntity<Result<BadgeResponseDto>> checkThanksBadge() {
         Badge badge = userBadgeService.checkThanksBadge();
 
         Result<BadgeResponseDto> result = new Result<>(new Meta(HttpStatus.OK.value()), new BadgeResponseDto(badge));

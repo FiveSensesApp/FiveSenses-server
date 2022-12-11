@@ -84,9 +84,9 @@ public class PostController {
 
     @GetMapping("/count")
     public ResponseEntity<Result<Long>> getCountByParam(@RequestParam Long userId,
-                                                           @RequestParam(required = false) Category category,
-                                                           @RequestParam(required = false) Integer star,
-                                                           @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate createdDate) {
+                                                        @RequestParam(required = false) Category category,
+                                                        @RequestParam(required = false) Integer star,
+                                                        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate createdDate) {
 
         Long count = postService.findCountByParam(userId, category, star, createdDate);
 
@@ -95,7 +95,7 @@ public class PostController {
     }
 
     @GetMapping("/search-keyword")
-    public ResponseEntity<Result<List<PostResponseDto>>> searchKeywordLike(@RequestParam String query){
+    public ResponseEntity<Result<List<PostResponseDto>>> searchKeywordLike(@RequestParam String query) {
         List<PostResponseDto> postResponseDtos = postService.searchKeywordLike(query).stream()
                 .map(PostResponseDto::new)
                 .sorted((p1, p2) -> Long.compare(p2.getId(), p1.getId()))
@@ -109,10 +109,10 @@ public class PostController {
     @GetMapping("/present-between")
     public ResponseEntity<Result<List<PostExistsByDateDto>>> getPresentPostsBetween(
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate){
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
         List<PostExistsByDateDto> listByCreatedDateBetween = postService.findListByCreatedDateBetween(startDate, endDate);
 
-        Result<List<PostExistsByDateDto>> result = new Result<>(new Meta(HttpStatus.OK.value()),  listByCreatedDateBetween);
+        Result<List<PostExistsByDateDto>> result = new Result<>(new Meta(HttpStatus.OK.value()), listByCreatedDateBetween);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

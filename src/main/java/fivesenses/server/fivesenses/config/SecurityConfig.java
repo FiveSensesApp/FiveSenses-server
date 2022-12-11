@@ -1,7 +1,6 @@
 package fivesenses.server.fivesenses.config;
 
 
-
 import fivesenses.server.fivesenses.jwt.JwtAccessDeniedHandler;
 import fivesenses.server.fivesenses.jwt.JwtAuthenticationEntryPoint;
 import fivesenses.server.fivesenses.jwt.JwtSecurityConfig;
@@ -49,17 +48,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers(
                         "/h2-console/**"
-                        ,"/favicon.ico"
-                        ,"/error",
+                        , "/favicon.ico"
+                        , "/error",
                         "/resources/**"
 
                 );
 
         web.ignoring().antMatchers(
                 "/v3/api-docs"
-                , "/v2/api-docs",  "/configuration/ui",
+                , "/v2/api-docs", "/configuration/ui",
                 "/swagger-resources", "/configuration/security",
-                "/swagger-ui.html", "/webjars/**","/swagger/**"
+                "/swagger-ui.html", "/webjars/**", "/swagger/**"
         );
     }
 

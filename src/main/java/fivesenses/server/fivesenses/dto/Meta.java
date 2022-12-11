@@ -14,7 +14,7 @@ public class Meta {
     private String msg;
     private Integer code;
 
-    public Meta(Integer code){
+    public Meta(Integer code) {
         this.code = code;
     }
 }

@@ -24,7 +24,7 @@ public class UserAuthority {
     @JoinColumn(name = "authority_id")
     private Authority authority;
 
-    public void changeAuthority(Authority authority){
+    public void changeAuthority(Authority authority) {
         this.authority = authority;
     }
 
