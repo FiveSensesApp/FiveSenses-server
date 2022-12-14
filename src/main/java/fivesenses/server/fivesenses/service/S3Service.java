@@ -22,8 +22,7 @@ import java.util.UUID;
 @Service
 public class S3Service {
 
-    private final static
-    String DIR_IMAGES = "images/";
+    private final static String DIR_IMAGES = "images/";
 
     private AmazonS3 s3Client;
 
@@ -49,31 +48,23 @@ public class S3Service {
                 .build();
     }
 
-    public String uploadWithUUID(MultipartFile file) throws IOException {
-        StringBuffer sb = new StringBuffer();
-
-        String fileName = sb.append(DIR_IMAGES)
-                .append(UUID.randomUUID().toString())
-                .append("_")
-                .append(file.getOriginalFilename())
-                .toString();
-
-        s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
-                .withCannedAcl(CannedAccessControlList.PublicRead));
+    public String uploadWithUUID(MultipartFile file) {
+        String fileName = getFileNameWithUUID(file);
+        try {
+            uploadOnS3(file, fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalStateException("S3 예외 발생 : uploadWithUUID");
+        }
 
         return s3Client.getUrl(bucket, fileName).toString();
     }
 
     public String upload(MultipartFile file, String dirName) {
-        StringBuffer sb = new StringBuffer();
-
-        String fileName = sb.append(dirName)
-                .append(file.getOriginalFilename())
-                .toString();
+        String fileName = getFileName(file, dirName);
 
         try {
-            s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
-                    .withCannedAcl(CannedAccessControlList.PublicRead));
+            uploadOnS3(file, fileName);
         } catch (IOException e) {
             e.printStackTrace();
             throw new IllegalStateException("S3 예외 발생 : upload");
@@ -84,9 +75,27 @@ public class S3Service {
 
     public void deleteFile(String fileName) {
         String path = DIR_IMAGES + fileName;
-
         s3Client.deleteObject(bucket, path);
     }
 
+    private void uploadOnS3(MultipartFile file, String fileName) throws IOException {
+        s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
+                .withCannedAcl(CannedAccessControlList.PublicRead));
+    }
 
+    private String getFileNameWithUUID(MultipartFile file) {
+        StringBuffer sb = new StringBuffer();
+        return sb.append(DIR_IMAGES)
+                .append(UUID.randomUUID())
+                .append("_")
+                .append(file.getOriginalFilename())
+                .toString();
+    }
+
+    private String getFileName(MultipartFile file, String dirName) {
+        StringBuffer sb = new StringBuffer();
+        return sb.append(dirName)
+                .append(file.getOriginalFilename())
+                .toString();
+    }
 }

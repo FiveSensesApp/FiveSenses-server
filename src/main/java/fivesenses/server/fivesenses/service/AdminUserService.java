@@ -1,6 +1,5 @@
 package fivesenses.server.fivesenses.service;
 
-import fivesenses.server.fivesenses.entity.Badge;
 import fivesenses.server.fivesenses.entity.User;
 import fivesenses.server.fivesenses.repository.PostRepository;
 import fivesenses.server.fivesenses.repository.UserAuthorityRepository;

@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -77,15 +80,18 @@ public class UserBadgeService {
         userBadgeRepository.delete(userBadge);
     }
 
-    //TDDO: 옵저버 패턴 적용 어떻게 하는지 찾기
+    //TODO: 옵저버 패턴 적용 어떻게 하는지 찾기
     @Transactional
     public List<Badge> checkUpdates() {
         User user = userService.findUserFromToken();
-        List<UserBadge> userBadges = findListByUserId(user.getId());
-        Set<String> presentBadges = userBadges.stream()
+        Set<String> presentBadges = findListByUserId(user.getId()).stream()
                 .map(m -> m.getBadge().getName())
                 .collect(Collectors.toSet());
 
+        return insertedBadgesByCondition(user, presentBadges);
+    }
+
+    private List<Badge> insertedBadgesByCondition(User user, Set<String> presentBadges) {
         List<Badge> insertedBadges = new ArrayList<>();
 
         List<Post> posts = postService.findListByUser(user);
@@ -236,11 +242,4 @@ public class UserBadgeService {
         createUserBadge(user, badge);
         return badge;
     }
-
-//    @Transactional
-//    public void updateBadge(UserBadgeRequestDto dto) {
-//        UserBadge userBadge = findByUserId(dto.getUserId());
-//    }
-
-
 }

@@ -64,7 +64,7 @@ public class UserService {
 
     public void validateDuplicateUser(String email) {
         if (email == null)
-            return;
+            throw new IllegalArgumentException("이메일은 반드시 포함되어야합니다.");
 
         if (userRepository.existsByEmail(email))
             throw new IllegalStateException("이미 사용중인 이메일입니다.");
@@ -91,7 +91,7 @@ public class UserService {
     @Transactional
     public void changePw(ChangePwDto changePwDto) {
         if (changePwDto.getNewPw() == null || changePwDto.getOgPw() == null)
-            throw new IllegalStateException("비밀번호를 입력하였는지 확인해주세요.");
+            throw new IllegalArgumentException("비밀번호를 입력하였는지 확인해주세요.");
 
         User user = this.findUserFromToken();
 

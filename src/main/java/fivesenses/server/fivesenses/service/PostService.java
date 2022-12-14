@@ -55,29 +55,8 @@ public class PostService {
         post.update(postRequestDto);
     }
 
-    public Slice<Post> findSliceByUser(Long userId, Category category, Integer star, LocalDate createdDate, Pageable pageable) {
-        User user = userService.findById(userId);
-
-        if (category != null)
-            return postRepository.findSliceByUserAndCategory(user, category, pageable);
-        if (star != null)
-            return postRepository.findSliceByUserAndStar(user, star, pageable);
-        if (createdDate != null)
-            return postRepository.findSliceByUserAndCreatedDateBetween(
-                    user,
-                    LocalDateTime.of(createdDate, LocalTime.of(0, 0, 0)),
-                    LocalDateTime.of(createdDate, LocalTime.of(23, 59, 59)),
-                    pageable
-            );
-
-        return postRepository.findSliceByUser(user, pageable);
-    }
-
     public Long findCountByParam(Long userId, Category category, Integer star, LocalDate createdDate) {
         User user = userService.findById(userId);
-
-//        if(category == null && star == null && createdDate == null)
-//            throw new IllegalStateException("검색 조건을 명시하지 않았습니다.");
 
         if (category == null && star == null && createdDate == null)
             return postRepository.countByUser(user);
@@ -101,23 +80,5 @@ public class PostService {
 
     public List<Post> findListByUser(User user) {
         return postRepository.findListByUser(user);
-    }
-
-
-    public List<PostExistsByDateDto> findListByCreatedDateBetween(LocalDate startDate, LocalDate endDate) {
-        List<PostExistsByDateDto> postExistsByDateDtoList = new ArrayList<>();
-        User user = userService.findUserFromToken();
-
-        int cnt = 0;
-        while (!startDate.plusDays(cnt).isEqual(endDate.plusDays(1))) {
-            LocalDate cmpDate = startDate.plusDays(cnt);
-            Boolean isPresent = postRepository.existsByUserAndCreatedDateBetween(user,
-                    LocalDateTime.of(cmpDate.getYear(), cmpDate.getMonthValue(), cmpDate.getDayOfMonth(), 0, 0, 0),
-                    LocalDateTime.of(cmpDate.getYear(), cmpDate.getMonthValue(), cmpDate.getDayOfMonth(), 23, 59, 59));
-
-            postExistsByDateDtoList.add(new PostExistsByDateDto(cmpDate, isPresent));
-            cnt++;
-        }
-        return postExistsByDateDtoList;
     }
 }

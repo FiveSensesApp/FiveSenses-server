@@ -13,5 +13,4 @@ public class PostExistsByDateDto {
 
     private LocalDate date;
     private Boolean isPresent;
-
 }

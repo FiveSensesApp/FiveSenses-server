@@ -36,7 +36,6 @@ public class Badge {
         if (name != null) this.name = name;
     }
 
-
     @Override
     public String toString() {
         return "Badge{" +

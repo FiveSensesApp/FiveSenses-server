@@ -2,7 +2,6 @@ package fivesenses.server.fivesenses.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
-
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -12,8 +11,7 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.*;
-
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,11 +27,10 @@ public class MailService {
 
     private static final String FROM_ADDRESS = "hi.mangpo@gmail.com";
 
-
     public void lostPw(String userEmail, String randomPw) {
 
         final MimeMessage mimeMessage = mailSender.createMimeMessage();
-        final MimeMessageHelper helper; // true = multipart
+        final MimeMessageHelper helper;
 
         try {
             helper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
@@ -65,11 +62,10 @@ public class MailService {
         mailSender.send(mimeMessage);
     }
 
-
     public void validateEmail(String userEmail, String randomCode) {
 
         final MimeMessage mimeMessage = mailSender.createMimeMessage();
-        final MimeMessageHelper helper; // true = multipart
+        final MimeMessageHelper helper;
 
         try {
             helper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
@@ -92,12 +88,6 @@ public class MailService {
                     new ClassPathResource("static/images/mail_1_email.png").getInputStream()));
             helper.addInline("mail_3", convertInputStreamToFile(
                     new ClassPathResource("static/images/mail_3.png").getInputStream()));
-
-
-//            Resource resource2 = new ClassPathResource("static/images/mail_3.png");
-//            InputStream inputStream2 = resource2.getInputStream();
-//            FileSystemResource mail_3 = new FileSystemResource(convertInputStreamToFile(inputStream2));
-//            helper.addInline("mail_3", mail_3);
 
         } catch (MessagingException | IOException e) {
             e.printStackTrace();

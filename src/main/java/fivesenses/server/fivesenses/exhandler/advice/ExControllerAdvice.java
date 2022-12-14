@@ -31,6 +31,13 @@ public class ExControllerAdvice {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public Result<Object> IllegalArgumentExHandler(IllegalArgumentException e) {
+        log.error("[exceptionHandler] ex", e);
+        return new Result<>(new Meta(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public Result<Object> HttpMessageNotReadableExHandler(HttpMessageNotReadableException e) {
         log.error("[exceptionHandler] ex", e);

@@ -4,6 +4,7 @@ import fivesenses.server.fivesenses.dto.*;
 import fivesenses.server.fivesenses.entity.Category;
 import fivesenses.server.fivesenses.entity.Post;
 import fivesenses.server.fivesenses.service.PostService;
+import fivesenses.server.fivesenses.service.PostViewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 public class PostController {
 
     private final PostService postService;
+    private final PostViewService postViewService;
 
     @PostMapping
     public ResponseEntity<Result<PostResponseDto>> createPost(@RequestBody PostRequestDto postRequestDto,
@@ -75,7 +77,7 @@ public class PostController {
                                                                    @RequestParam(required = false) Integer star,
                                                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate createdDate,
                                                                    Pageable pageable) {
-        Slice<PostResponseDto> postDtos = postService.findSliceByUser(userId, category, star, createdDate, pageable)
+        Slice<PostResponseDto> postDtos = postViewService.findSliceByUser(userId, category, star, createdDate, pageable)
                 .map(PostResponseDto::new);
 
         Result<Slice<PostResponseDto>> result = new Result<>(new Meta(HttpStatus.OK.value()), postDtos);
@@ -110,7 +112,7 @@ public class PostController {
     public ResponseEntity<Result<List<PostExistsByDateDto>>> getPresentPostsBetween(
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
-        List<PostExistsByDateDto> listByCreatedDateBetween = postService.findListByCreatedDateBetween(startDate, endDate);
+        List<PostExistsByDateDto> listByCreatedDateBetween = postViewService.findExistsListByCreatedDateBetween(startDate, endDate);
 
         Result<List<PostExistsByDateDto>> result = new Result<>(new Meta(HttpStatus.OK.value()), listByCreatedDateBetween);
         return new ResponseEntity<>(result, HttpStatus.OK);
