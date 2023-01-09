@@ -1,13 +1,14 @@
 package fivesenses.server.fivesenses.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@AllArgsConstructor
+@Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class TokenDto {
-
-    private String token;
+    private String grantType;
+    private String accessToken;
+    private String refreshToken;
+    private Long accessTokenExpiresIn;
 }
