@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class TokenProvider implements InitializingBean {
     private static final String BEARER_TYPE = "Bearer";
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;            // 30분
-    //    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 15;            // 15초 테스트용
+    private static final long TEST_ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60;            // 1분 테스트용
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
     private static final String AUTHORITIES_KEY = "auth";
 
@@ -134,6 +134,14 @@ public class TokenProvider implements InitializingBean {
     public String generateTokenDtoLegacy(Authentication authentication) {
         long now = (new Date()).getTime();
         Date accessTokenExpiresIn = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
+
+        return createAccessToken(accessTokenExpiresIn, authentication.getName(), parseAuthorities(authentication));
+    }
+
+    //테스트용. 1분짜리 토큰 반환
+    public String generateTokenDtoTest(Authentication authentication) {
+        long now = (new Date()).getTime();
+        Date accessTokenExpiresIn = new Date(now + TEST_ACCESS_TOKEN_EXPIRE_TIME);
 
         return createAccessToken(accessTokenExpiresIn, authentication.getName(), parseAuthorities(authentication));
     }

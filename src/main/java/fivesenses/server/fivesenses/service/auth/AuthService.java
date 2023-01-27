@@ -8,11 +8,8 @@ import fivesenses.server.fivesenses.dto.TokenRequestDto;
 import fivesenses.server.fivesenses.entity.RefreshToken;
 import fivesenses.server.fivesenses.jwt.TokenProvider;
 import fivesenses.server.fivesenses.repository.RefreshTokenRepository;
-import fivesenses.server.fivesenses.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -101,5 +98,17 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return tokenProvider.generateTokenDtoLegacy(authentication);
+    }
+
+    //테스트용. 1분짜리 토큰 반환
+    @Transactional
+    public String signInTest(SigninDto signinDto) {
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(signinDto.getEmail(), signinDto.getPassword());
+
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return tokenProvider.generateTokenDtoTest(authentication);
     }
 }

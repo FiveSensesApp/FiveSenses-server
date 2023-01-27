@@ -42,7 +42,23 @@ public class AuthController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-    //구버전 대응용. 나중에 클라 업뎃 확인 후 지우기
+    //테스트용. 매우 짧은 토큰 반환
+    @PostMapping("/short-token")
+    public ResponseEntity<Result<LegacyTokenDto>> getTestToken(@Valid @RequestBody SigninDto signinDto) {
+        String token = authService.signInTest(signinDto);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + token);
+
+        LegacyTokenDto legacyTokenDto = new LegacyTokenDto();
+        legacyTokenDto.setToken(token);
+
+        Result<LegacyTokenDto> result = new Result<>(new Meta(HttpStatus.OK.value()), legacyTokenDto);
+        return new ResponseEntity<>(result, httpHeaders, HttpStatus.OK);
+    }
+
+   //구버전 대응용. 나중에 클라 업뎃 확인 후 지우기
     @Data
     static class LegacyTokenDto{
         String token;
