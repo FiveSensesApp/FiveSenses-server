@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Base64;
 import java.util.HashMap;
 
-
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor

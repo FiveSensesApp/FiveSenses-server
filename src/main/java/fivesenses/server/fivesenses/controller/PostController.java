@@ -98,7 +98,7 @@ public class PostController {
 
     @GetMapping("/search-keyword")
     public ResponseEntity<Result<List<PostResponseDto>>> searchKeywordLike(@RequestParam String query) {
-        List<PostResponseDto> postResponseDtos = postService.searchKeywordLike(query).stream()
+        List<PostResponseDto> postResponseDtos = postService.listContainsKeywordAndContent(query).stream()
                 .map(PostResponseDto::new)
                 .sorted((p1, p2) -> Long.compare(p2.getId(), p1.getId()))
                 .collect(Collectors.toList());

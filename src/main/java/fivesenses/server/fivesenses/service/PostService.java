@@ -1,14 +1,11 @@
 package fivesenses.server.fivesenses.service;
 
-import fivesenses.server.fivesenses.dto.PostExistsByDateDto;
 import fivesenses.server.fivesenses.dto.PostRequestDto;
 import fivesenses.server.fivesenses.entity.Category;
 import fivesenses.server.fivesenses.entity.Post;
 import fivesenses.server.fivesenses.entity.User;
 import fivesenses.server.fivesenses.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +13,6 @@ import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -73,9 +69,9 @@ public class PostService {
         return 0L;
     }
 
-    public List<Post> searchKeywordLike(String query) {
+    public List<Post> listContainsKeywordAndContent(String query) {
         User user = userService.findUserFromToken();
-        return postRepository.findByUserAndKeywordContaining(user, query);
+        return postRepository.findListContaining(user, query, query);
     }
 
     public List<Post> findListByUser(User user) {

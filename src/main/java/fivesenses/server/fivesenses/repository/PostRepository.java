@@ -6,8 +6,9 @@ import fivesenses.server.fivesenses.entity.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,6 +35,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 //    List<Post> findByKeywordContaining(String query);
 
     List<Post> findByUserAndKeywordContaining(User user, String query);
+
+    @Query("SELECT p " +
+            "FROM Post p " +
+            "WHERE p.user = :user AND (p.keyword LIKE %:keyword% OR p.content LIKE %:content%)")
+    List<Post> findListContaining(@Param("user") User user, @Param("keyword") String keyword, @Param("content") String content);
 
     Long countByUser(User user);
 
