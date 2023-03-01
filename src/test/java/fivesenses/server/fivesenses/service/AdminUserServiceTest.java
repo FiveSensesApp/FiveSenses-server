@@ -1,10 +1,17 @@
 package fivesenses.server.fivesenses.service;
 
-import fivesenses.server.fivesenses.entity.Post;
-import fivesenses.server.fivesenses.entity.User;
-import fivesenses.server.fivesenses.entity.UserAuthority;
-import fivesenses.server.fivesenses.entity.UserBadge;
-import fivesenses.server.fivesenses.repository.*;
+import fivesenses.server.fivesenses.common.service.AdminUserService;
+import fivesenses.server.fivesenses.domain.badge.enitity.UserBadge;
+import fivesenses.server.fivesenses.domain.badge.repository.UserBadgeRepository;
+import fivesenses.server.fivesenses.domain.post.entity.Post;
+import fivesenses.server.fivesenses.domain.post.repository.PostRepository;
+import fivesenses.server.fivesenses.domain.user.entity.User;
+import fivesenses.server.fivesenses.domain.user.entity.UserAuthority;
+import fivesenses.server.fivesenses.domain.user.entity.UserTemp;
+import fivesenses.server.fivesenses.domain.user.repository.UserAuthorityRepository;
+import fivesenses.server.fivesenses.domain.user.repository.UserRepository;
+import fivesenses.server.fivesenses.domain.user.repository.UserTempRepository;
+import fivesenses.server.fivesenses.domain.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

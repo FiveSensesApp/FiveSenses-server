@@ -1,14 +1,17 @@
 package fivesenses.server.fivesenses.service;
 
-import fivesenses.server.fivesenses.dto.ChangePwDto;
-import fivesenses.server.fivesenses.dto.CreateUserDto;
-import fivesenses.server.fivesenses.entity.Authority;
-import fivesenses.server.fivesenses.entity.User;
-import fivesenses.server.fivesenses.jwt.SecurityUtil;
-import fivesenses.server.fivesenses.repository.AuthorityRepository;
-import fivesenses.server.fivesenses.repository.UserAuthorityRepository;
-import fivesenses.server.fivesenses.repository.UserRepository;
-import fivesenses.server.fivesenses.repository.UserTempRepository;
+import fivesenses.server.fivesenses.common.service.MailService;
+import fivesenses.server.fivesenses.domain.user.repository.UserTempRepository;
+import fivesenses.server.fivesenses.domain.user.service.UserService;
+import fivesenses.server.fivesenses.domain.user.dto.ChangePwDto;
+import fivesenses.server.fivesenses.domain.user.dto.CreateUserDto;
+import fivesenses.server.fivesenses.domain.user.entity.Authority;
+import fivesenses.server.fivesenses.domain.user.entity.User;
+import fivesenses.server.fivesenses.common.jwt.SecurityUtil;
+import fivesenses.server.fivesenses.domain.user.repository.AuthorityRepository;
+import fivesenses.server.fivesenses.domain.user.repository.UserAuthorityRepository;
+import fivesenses.server.fivesenses.domain.user.repository.UserRepository;
+import fivesenses.server.fivesenses.domain.user.entity.UserTemp;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

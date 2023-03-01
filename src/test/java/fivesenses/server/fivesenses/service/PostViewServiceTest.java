@@ -1,21 +1,21 @@
 package fivesenses.server.fivesenses.service;
 
-import fivesenses.server.fivesenses.entity.Category;
-import fivesenses.server.fivesenses.entity.Post;
-import fivesenses.server.fivesenses.entity.User;
-import fivesenses.server.fivesenses.repository.PostRepository;
+import fivesenses.server.fivesenses.domain.post.service.PostViewService;
+import fivesenses.server.fivesenses.domain.user.service.UserService;
+import fivesenses.server.fivesenses.domain.post.entity.Category;
+import fivesenses.server.fivesenses.domain.post.entity.Post;
+import fivesenses.server.fivesenses.domain.user.entity.User;
+import fivesenses.server.fivesenses.domain.post.repository.PostRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
