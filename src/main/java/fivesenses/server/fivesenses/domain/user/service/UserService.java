@@ -1,8 +1,10 @@
 package fivesenses.server.fivesenses.domain.user.service;
 
+import fivesenses.server.fivesenses.common.jwt.SecurityUtil;
+import fivesenses.server.fivesenses.common.service.MailService;
 import fivesenses.server.fivesenses.domain.user.dto.ChangePwDto;
-import fivesenses.server.fivesenses.domain.user.dto.UpdateUserDto;
 import fivesenses.server.fivesenses.domain.user.dto.CreateUserDto;
+import fivesenses.server.fivesenses.domain.user.dto.UpdateUserDto;
 import fivesenses.server.fivesenses.domain.user.entity.Authority;
 import fivesenses.server.fivesenses.domain.user.entity.User;
 import fivesenses.server.fivesenses.domain.user.entity.UserAuthority;
@@ -10,11 +12,8 @@ import fivesenses.server.fivesenses.domain.user.entity.UserTemp;
 import fivesenses.server.fivesenses.domain.user.repository.AuthorityRepository;
 import fivesenses.server.fivesenses.domain.user.repository.UserAuthorityRepository;
 import fivesenses.server.fivesenses.domain.user.repository.UserRepository;
-import fivesenses.server.fivesenses.common.jwt.SecurityUtil;
-import fivesenses.server.fivesenses.common.service.MailService;
 import fivesenses.server.fivesenses.domain.user.repository.UserTempRepository;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +35,10 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    static final int RANDOM_PW_MAX = 9999999;
+    static final int RANDOM_PW_MIN = 1000000;
+    static final int RANDOM_VALID_MAX = 999;
+    static final int RANDOM_VALID_MIN = 100;
 
     public User findUserFromToken() {
         Long currentUserId = SecurityUtil.getCurrentUserId();
@@ -130,7 +133,6 @@ public class UserService {
 
     @Transactional
     public void validateEmailSendCode(String email, String emailValidCode) {
-
         UserTemp userTemp = userTempRepository.findByEmail(email);
         if (userTemp == null)
             throw new EntityNotFoundException("존재하지 않는 임시 인증 정보입니다.");
@@ -141,18 +143,13 @@ public class UserService {
         userTempRepository.delete(userTemp);
     }
 
-
     private String generateRandomPw() {
-        int max = 9999999;
-        int min = 1000000;
-        int randomNum = (int) ((Math.random() * (max - min)) + min);
+        int randomNum = (int) ((Math.random() * (RANDOM_PW_MAX - RANDOM_PW_MIN)) + RANDOM_PW_MIN);
         return String.valueOf(randomNum);
     }
 
     private String generateRandomValidCode() {
-        int max = 999;
-        int min = 100;
-        int randomNum = (int) ((Math.random() * (max - min)) + min);
+        int randomNum = (int) ((Math.random() * (RANDOM_VALID_MAX - RANDOM_VALID_MIN)) + RANDOM_VALID_MIN);
         return String.valueOf(randomNum);
     }
 

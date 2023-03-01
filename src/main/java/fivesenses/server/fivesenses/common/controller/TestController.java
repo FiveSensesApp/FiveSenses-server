@@ -24,15 +24,12 @@ public class TestController {
                 .build();
 
         refreshTokenRepository.save(refreshToken);
-
-
         return "test";
     }
 
     @GetMapping("/test-2")
     @Transactional
     public Object test2() {
-
         return refreshTokenRepository.findById(1L);
     }
 }

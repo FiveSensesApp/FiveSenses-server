@@ -23,6 +23,7 @@ public class StatViewService {
     private final PostService postService;
     private final UserService userService;
 
+    static final String CATEGORY_NONE = "NONE";
 
     public StatResponseDto getStatViewByUser(Long userId) {
         final User user = userService.findById(userId);
@@ -71,7 +72,7 @@ public class StatViewService {
 
             //이달의 감각이 없을때
             if (cnt == 0) {
-                monthlyMostCategoryDtos.add(new MonthlyMostCategoryDto(localDate, "NONE", cnt));
+                monthlyMostCategoryDtos.add(new MonthlyMostCategoryDto(localDate, CATEGORY_NONE, cnt));
                 continue;
             }
 

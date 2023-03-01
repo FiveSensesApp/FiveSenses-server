@@ -20,13 +20,6 @@ public class AdminController {
 
     private final AdminUserService adminUserService;
 
-    private final MailService mailService;
-    private final UserBadgeService userBadgeService;
-    private final BadgeService badgeService;
-    private final UserService userService;
-
-    private final UserBadgeRepository userBadgeRepository;
-
     @DeleteMapping("/users/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         adminUserService.deleteUser(id);

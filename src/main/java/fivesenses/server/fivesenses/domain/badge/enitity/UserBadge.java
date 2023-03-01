@@ -30,8 +30,6 @@ public class UserBadge extends BaseTimeEntity {
     public String toString() {
         return "UserBadge{" +
                 "id=" + id +
-                ", user=" + user +
-                ", badge=" + badge +
                 '}';
     }
 }

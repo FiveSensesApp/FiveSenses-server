@@ -112,7 +112,6 @@ public class BadgeController {
     public ResponseEntity<Result<BadgeResponseDto>> checkShareBadge() {
         Badge badge = userBadgeService.checkShareBadge();
 
-
         Result<BadgeResponseDto> result = new Result<>(new Meta(HttpStatus.OK.value()), new BadgeResponseDto(badge));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

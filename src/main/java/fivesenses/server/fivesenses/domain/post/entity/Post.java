@@ -50,7 +50,6 @@ public class Post extends BaseTimeEntity {
     public String toString() {
         return "Post{" +
                 "id=" + id +
-                ", user=" + user +
                 ", category=" + category +
                 ", keyword='" + keyword + '\'' +
                 ", star=" + star +

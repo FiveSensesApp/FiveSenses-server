@@ -4,11 +4,11 @@ import fivesenses.server.fivesenses.common.dto.Meta;
 import fivesenses.server.fivesenses.common.dto.Result;
 import fivesenses.server.fivesenses.domain.post.dto.PostRequestDto;
 import fivesenses.server.fivesenses.domain.post.dto.PostResponseDto;
-import fivesenses.server.fivesenses.domain.user.dto.PostExistsByDateDto;
 import fivesenses.server.fivesenses.domain.post.entity.Category;
 import fivesenses.server.fivesenses.domain.post.entity.Post;
 import fivesenses.server.fivesenses.domain.post.service.PostService;
 import fivesenses.server.fivesenses.domain.post.service.PostViewService;
+import fivesenses.server.fivesenses.domain.user.dto.PostExistsByDateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -67,7 +67,8 @@ public class PostController {
     }
 
     @PatchMapping("/{postId}")
-    public ResponseEntity<Result<PostResponseDto>> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto) {
+    public ResponseEntity<Result<PostResponseDto>> updatePost(@PathVariable Long postId,
+                                                              @RequestBody PostRequestDto requestDto) {
         postService.updatePost(postId, requestDto);
 
         Post post = postService.findPostById(postId);
@@ -79,7 +80,8 @@ public class PostController {
     public ResponseEntity<Result<Slice<PostResponseDto>>> getPosts(@RequestParam Long userId,
                                                                    @RequestParam(required = false) Category category,
                                                                    @RequestParam(required = false) Integer star,
-                                                                   @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate createdDate,
+                                                                   @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd")
+                                                                           LocalDate createdDate,
                                                                    Pageable pageable) {
         Slice<PostResponseDto> postDtos = postViewService.findSliceByUser(userId, category, star, createdDate, pageable)
                 .map(PostResponseDto::new);
@@ -92,7 +94,8 @@ public class PostController {
     public ResponseEntity<Result<Long>> getCountByParam(@RequestParam Long userId,
                                                         @RequestParam(required = false) Category category,
                                                         @RequestParam(required = false) Integer star,
-                                                        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate createdDate) {
+                                                        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd")
+                                                                LocalDate createdDate) {
 
         Long count = postService.findCountByParam(userId, category, star, createdDate);
 

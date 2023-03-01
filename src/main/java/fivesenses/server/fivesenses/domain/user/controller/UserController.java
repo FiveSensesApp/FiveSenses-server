@@ -79,20 +79,6 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-//        User user = userService.deleteUser(id);
-//    }
-
-//    @GetMapping("/{userId}/stat")
-//    public ResponseEntity<Result<StatResponseDto>> getStat(@PathVariable Long userId) {
-//        StatResponseDto statResponseDto = statService.getStat(userId);
-//
-//        Result<UserResponseDto> result = new Result<>(new Meta(HttpStatus.OK.value()), new UserResponseDto(user));
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
-
-
     @Data
     static class UserValidationDto {
         String email;
