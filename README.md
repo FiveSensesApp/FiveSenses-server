@@ -14,11 +14,12 @@
 ### 서버 구조도
 <div align="center"><img src="https://raw.githubusercontent.com/CYC0227/mangpo-ERD/main/archi.png" width="100%"/></div>
 <br>  
+<br>  
 
 ### API 링크
-https://documenter.getpostman.com/view/15985111/2s93CSpBa9
+* https://documenter.getpostman.com/view/15985111/2s93CSpBa9
 
-
+<br>  
 ### 사용 기술, 개발 환경
 
 * Java, Spring Boot, Gradle
